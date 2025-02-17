@@ -12,5 +12,3 @@ exports.comparePassword = async (password, hashedPassword) => {
   const isMatch = await bcrypt.compare(password, hashedPassword);
   return isMatch;
 };
-
-// Encrypt employee data before saving
