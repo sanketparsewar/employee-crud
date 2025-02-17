@@ -8,10 +8,9 @@ exports.hashPassword = async function (password) {
 };
 
 // Compare password
-exports.comparePassword = async (password,hashedPassword)=> {
-  const isMatch = await bcrypt.compare(password,hashedPassword);
+exports.comparePassword = async (password, hashedPassword) => {
+  const isMatch = await bcrypt.compare(password, hashedPassword);
   return isMatch;
 };
 
-
-// Encrypt user data before saving
+// Encrypt employee data before saving
