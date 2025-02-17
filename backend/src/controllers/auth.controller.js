@@ -127,3 +127,8 @@ exports.logout = async (req, res) => {
 };
 
 
+exports.refreshAccessToken = async (req, res) => {
+// access refreshToken from cookies or body 
+// if not got refreshToken then send 401 status 
+}
+
