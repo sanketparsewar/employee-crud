@@ -1,4 +1,4 @@
-const Employee = require("../models/employee");
+const Employee = require("../models/employee.model");
 const {
   hashPassword,
   comparePassword,
@@ -125,3 +125,5 @@ exports.logout = async (req, res) => {
     res.status(500).json({ message: "Error logging out", error: err.message });
   }
 };
+
+
