@@ -24,7 +24,7 @@ const generateAccessAndRefreshToken = async (employee) => {
   }
 };
 
-const register = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { name, email, password, department, role } = req.body;
     if (!name || !email || !password || !department || !role) {
@@ -55,7 +55,7 @@ const register = async (req, res) => {
   }
 };
 
-const login = async function (req, res) {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -100,7 +100,7 @@ const login = async function (req, res) {
   }
 };
 
-const logout = async (req, res) => {
+exports.logout = async (req, res) => {
   try {
     await Employee.findByIdAndUpdate(
       req.employee._id,
@@ -125,5 +125,3 @@ const logout = async (req, res) => {
     res.status(500).json({ message: "Error logging out", error: err.message });
   }
 };
-
-module.exports = { register, login, logout };
