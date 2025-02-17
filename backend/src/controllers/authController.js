@@ -1,33 +1,57 @@
-const User = require("../models/user");
-const { hashPassword,comparePassword } = require("../services/authService");
-const {generateToken} = require("../services/generateToken");
+const Employee = require("../models/employee");
+const {
+  hashPassword,
+  comparePassword,
+} = require("../services/hashAndComparePassword");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+} = require("../services/generateToken");
+
+const generateAccessAndRefreshToken = async (employee) => {
+  try {
+    const accessToken = await generateAccessToken(employee);
+    const refreshToken = await generateRefreshToken(employee);
+    employee.refreshToken = refreshToken;
+    await employee.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Error generating tokens", error: err.message });
+  }
+};
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const { name, email, password, department, role } = req.body;
+    if (!name || !email || !password || !department || !role) {
       return res.status(400).json({ message: "All fields required." });
     }
-    const existingUser = await User.findOne({ email });
+    const existingEmployee = await Employee.findOne({ email });
 
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists." });
+    if (existingEmployee) {
+      return res.status(400).json({ message: "Employee already exists." });
     }
     const hashedPassword = await hashPassword(password);
 
-    const newUser = new User({
+    const newEmployee = new Employee({
       name,
       email,
       password: hashedPassword,
+      department,
+      role,
     });
-    console.log(newUser);
+    console.log(newEmployee);
 
-    await newUser.save();
-    res.status(201).json({ message: "User registered!" });
+    await newEmployee.save();
+    res.status(201).json({ message: "Employee registered!" });
   } catch (err) {
     res
       .status(500)
-      .json({ message: "Error creating user", error: err.message });
+      .json({ message: "Error creating employee", error: err.message });
   }
 };
 
@@ -37,23 +61,69 @@ const login = async function (req, res) {
     if (!email || !password) {
       return res.status(400).json({ message: "Invalid email or password." });
     }
-    const user = await User.findOne({ email});
-    if (!user) {
-      return res.send(404).json({ message: "User not Found." });
+    const employee = await Employee.findOne({ email });
+    if (!employee) {
+      return res.send(404).json({ message: "Employee not Found." });
     }
-    console.log(user)
+    console.log(employee);
 
-    const isMatch = await comparePassword(password,user.password);
-    console.log(isMatch)
+    const isMatch = await comparePassword(password, employee.password);
+
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const token = await generateToken(user);
-    
-    res.json({ message: "Logged in successfully", token: token });
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      employee
+    );
+
+    const loggedInEmployee = await Employee.findById(employee._id).select(
+      "-password -refreshToken "
+    );
+
+    // set cookies options
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+    res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json({
+        message: "Logged in successfully",
+        employee: loggedInEmployee,
+        accessToken,
+        refreshToken,
+      });
   } catch (err) {
     res.status(500).json({ message: "Error logging in", error: err.message });
   }
 };
 
-module.exports = { register, login };
+const logout = async (req, res) => {
+  try {
+    await Employee.findByIdAndUpdate(
+      req.employee._id,
+      {
+        $set: {
+          refreshToken: undefined,
+        },
+      },
+      { new: true }
+    );
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+    res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json({ message: "Logged out successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Error logging out", error: err.message });
+  }
+};
+
+module.exports = { register, login, logout };
