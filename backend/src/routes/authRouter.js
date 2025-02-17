@@ -1,6 +1,6 @@
 const express = require("express");
-const { register, login } = require("../controllers/authController");
-// const verifyToken=require('../middlewares/authentication')
+const { register, login, logout } = require("../controllers/authController");
+const { verifyJwt } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 router.get("/", function (req, res) {
@@ -8,5 +8,8 @@ router.get("/", function (req, res) {
 });
 router.post("/register", register);
 router.post("/login", login);
+
+// secured Routes
+router.get("/logout", verifyJwt, logout);
 
 module.exports = router;
