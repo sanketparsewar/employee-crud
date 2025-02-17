@@ -1,10 +1,20 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.generateToken = async (user) => {
-  const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-    expiresIn: "5m",
-  });
+exports.generateAccessToken = async (employee) => {
+  return jwt.sign(
+    {
+      _id: employee._id,
+    },
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    }
+  );
+};
 
-  return token;
+exports.generateRefreshToken = async (employee) => {
+  return jwt.sign({ _id: employee._id }, process.env.REFRESH_TOKEN_EXPIRY, {
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+  });
 };
