@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
     if (!name || !email || !password || !department || !role) {
       return res.status(400).json({ message: "All fields required." });
     }
+    console.log(req.body);
     const existingEmployee = await Employee.findOne({ email });
 
     if (existingEmployee) {
@@ -66,7 +67,7 @@ exports.login = async (req, res) => {
     if (!employee) {
       return res.send(404).json({ message: "Employee not Found." });
     }
-    console.log(employee);
+    // console.log(employee);
 
     const isMatch = await comparePassword(password, employee.password);
 
@@ -83,7 +84,7 @@ exports.login = async (req, res) => {
 
     // set cookies options
     const options = {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
     };
     res
@@ -114,7 +115,7 @@ exports.logout = async (req, res) => {
     );
 
     const options = {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
     };
     res
@@ -130,8 +131,9 @@ exports.logout = async (req, res) => {
 exports.refreshAccessToken = async (req, res) => {
   // access refreshToken from cookies or body
   // if not got refreshToken then send 401 status
-  const incomingRefreshToken = req.cookie?.refreshToken || req.body?.refreshToken;
-
+  const incomingRefreshToken =
+    req.cookies?.refreshToken || req.body?.refreshToken;
+  console.log("old token", incomingRefreshToken);
   if (!incomingRefreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
   }
@@ -141,34 +143,40 @@ exports.refreshAccessToken = async (req, res) => {
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET_KEY
     );
+    console.log('decodedToken',decodedToken);
     const employee = await Employee.findById(decodedToken._id);
+    console.log('employee',employee);
 
     if (incomingRefreshToken !== employee?.refreshToken) {
       return res
         .status(401)
         .json({ message: "Invalid or expired refresh token" });
     }
+    console.log('received and database refreshtoken same');
 
-    const { accessToken, newRefreshToken } =
+    const { accessToken, refreshToken } =
       await generateAccessAndRefreshToken(employee);
 
     // update refreshToken in database
-    employee.refreshToken = newRefreshToken;
-    await employee.save({ validateBeforeSave: false });
+    console.log("new token", refreshToken);
 
+    employee.refreshToken = refreshToken;
+    await employee.save({ validateBeforeSave: false });
+    console.log('employee new refreshtoken',employee);
     const options = {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
     };
 
+    console.log('sending new access and refresh token');
     res
       .status(200)
       .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", newRefreshToken, options)
+      .cookie("refreshToken", refreshToken, options)
       .json({
         message: "Access token refreshed successfully",
         accessToken,
-        refreshToken: newRefreshToken,
+        refreshToken,
       });
   } catch (error) {
     res.status(401).json({ message: error.message });
