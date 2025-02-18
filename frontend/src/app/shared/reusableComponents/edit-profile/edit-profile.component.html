@@ -1,0 +1,75 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 rounded-4 p-4" [formGroup]="updateForm" (ngSubmit)="onSubmit(updateForm)">
+                    <div class="col-md-6">
+                        <label for="inputName4" class="form-label">Name</label>
+                        <input type="text" formControlName="name" class="form-control" id="inputName4">
+                        <div *ngIf="updateForm.get('name')?.invalid && (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)"
+                            class="text-danger">
+                            <small *ngIf="updateForm.get('name')?.errors?.['required']">Name is required.</small>
+                            <small *ngIf="updateForm.get('name')?.errors?.['minlength']">Minimum 3 character.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <label for="inputState" class="form-label">Role</label>
+                        <select id="inputState" class="form-select" formControlName="role">
+                            <option selected value="">Choose...</option>
+                            <option value="Employee">Employee</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div> -->
+                    <div class="col-md-6">
+                        <label for="inputDepartment4" class="form-label">Department</label>
+                        <input type="text" class="form-control" formControlName="department" id="inputDepartment4">
+                        <div class="text-danger"
+                            *ngIf="updateForm.get('department')?.invalid && (updateForm.get('department')?.dirty || updateForm.get('department')?.touched)">
+                            <small *ngIf="updateForm.get('department')?.errors?.['required']">Department is
+                                required.</small>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email" id="inputEmail4">
+                        <div *ngIf=" updateForm.get('email')?.invalid && ( updateForm.get('email')?.dirty ||  updateForm.get('email')?.touched)"
+                            class="text-danger">
+                            <small *ngIf=" updateForm.get('email')?.errors?.['required']">Email is required.</small>
+                            <small *ngIf=" updateForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password" id="inputPassword4">
+            
+                        <div *ngIf="updateForm.get('password')?.invalid && (updateForm.get('password')?.dirty || updateForm.get('password')?.touched)"
+                            class="text-danger">
+                            <small *ngIf="updateForm.get('password')?.errors?.['required']">Password is required.</small>
+                            <small *ngIf="updateForm.get('password')?.errors?.['minlength']">Minimum 6 character.</small>
+                        </div>
+                    </div> -->
+
+
+
+                    <!-- <div class="col-12 text-center">
+                        <button type="submit" [disabled]="updateForm.invalid" class="btn btn-primary">Save</button>
+                    </div> -->
+                </form>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
