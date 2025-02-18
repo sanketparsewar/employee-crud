@@ -9,7 +9,7 @@ const { verifyJwt } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
 // User routes
-router.get("/", verifyJwt, getLoggedEmployee);
+router.get("/logged", verifyJwt, getLoggedEmployee);
 router.get("/allemployees", verifyJwt, getAllEmployees);
 router.get("/:id", verifyJwt, getEmployeeById);
 router.put("/", verifyJwt, updateEmployee);
