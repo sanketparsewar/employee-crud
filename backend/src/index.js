@@ -12,13 +12,17 @@ const app = express();
 const PORT = process.env.PORT;
 
 connectDB();
+const corsOptions = {
+  origin: "http://localhost:4200",
+  credentials: true,
+};
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
-app.use("/auth", authRouter);
-app.use("/employee", employeeRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/employee", employeeRouter);
 
 module.exports = { app, PORT };
