@@ -7,6 +7,7 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../services/generateToken");
+const jwt = require("jsonwebtoken");
 
 const generateAccessAndRefreshToken = async (employee) => {
   try {
@@ -126,9 +127,50 @@ exports.logout = async (req, res) => {
   }
 };
 
-
 exports.refreshAccessToken = async (req, res) => {
-// access refreshToken from cookies or body 
-// if not got refreshToken then send 401 status 
-}
+  // access refreshToken from cookies or body
+  // if not got refreshToken then send 401 status
+  const incomingRefreshToken = req.cookie?.refreshToken || req.body?.refreshToken;
 
+  if (!incomingRefreshToken) {
+    return res.status(401).json({ message: "No refresh token provided" });
+  }
+
+  try {
+    const decodedToken = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET_KEY
+    );
+    const employee = await Employee.findById(decodedToken._id);
+
+    if (incomingRefreshToken !== employee?.refreshToken) {
+      return res
+        .status(401)
+        .json({ message: "Invalid or expired refresh token" });
+    }
+
+    const { accessToken, newRefreshToken } =
+      await generateAccessAndRefreshToken(employee);
+
+    // update refreshToken in database
+    employee.refreshToken = newRefreshToken;
+    await employee.save({ validateBeforeSave: false });
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newRefreshToken, options)
+      .json({
+        message: "Access token refreshed successfully",
+        accessToken,
+        refreshToken: newRefreshToken,
+      });
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
+};
