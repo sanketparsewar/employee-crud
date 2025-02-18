@@ -26,6 +26,9 @@ exports.getEmployeeById = async (req, res) => {
 
 exports.getAllEmployees = async (req, res) => {
   try {
+    if(req.employee.role !== "Admin"){
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
     const employees = await Employee.find({}).select(
       "-password -refreshToken -__v"
     );
