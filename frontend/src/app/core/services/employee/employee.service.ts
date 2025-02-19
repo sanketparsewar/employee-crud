@@ -15,11 +15,7 @@ export class EmployeeService {
       withCredentials: true,
     });
   }
-  // getAllEmployees() {
-  //   return this.http.get(`${this.BASE_URL}/employee/allemployees`, {
-  //     withCredentials: true,
-  //   });
-  // }
+  
   getAllEmployees(queryParameters:any) {
     let params = new HttpParams();
   
