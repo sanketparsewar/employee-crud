@@ -31,7 +31,6 @@ exports.register = async (req, res) => {
     if (!name || !email || !password || !department || !role) {
       return res.status(400).json({ message: "All fields required." });
     }
-    console.log(req.body);
     const existingEmployee = await Employee.findOne({ email });
 
     if (existingEmployee) {
@@ -46,7 +45,6 @@ exports.register = async (req, res) => {
       department,
       role,
     });
-    console.log(newEmployee);
 
     await newEmployee.save();
     res.status(201).json({ message: "Employee registered!" });
@@ -65,14 +63,13 @@ exports.login = async (req, res) => {
     }
     const employee = await Employee.findOne({ email });
     if (!employee) {
-      return res.send(404).json({ message: "Employee not Found." });
+      return res.status(404).json({ message: "Employee not Found." });
     }
-    // console.log(employee);
 
     const isMatch = await comparePassword(password, employee.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
       employee
@@ -97,15 +94,24 @@ exports.login = async (req, res) => {
         accessToken,
         refreshToken,
       });
-  } catch (err) {
-    res.status(500).json({ message: "Error logging in", error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging in" });
   }
 };
 
 exports.logout = async (req, res) => {
   try {
+    const token =
+      req.cookies?.accessToken ||
+      req.header("Authorization").replace("Bearer ", "");
+
+    if (!token) {
+      return res.status(401).json({ message: "Token is not provided" });
+    }
+    const decode = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+
     await Employee.findByIdAndUpdate(
-      req.employee._id,
+      decode._id,
       {
         $set: {
           refreshToken: undefined,
@@ -133,9 +139,8 @@ exports.refreshAccessToken = async (req, res) => {
   // if not got refreshToken then send 401 status
   const incomingRefreshToken =
     req.cookies?.refreshToken || req.body?.refreshToken;
-  console.log("old token", incomingRefreshToken);
   if (!incomingRefreshToken) {
-    return res.status(401).json({ message: "No refresh token provided" });
+    return res.status(400).json({ message: "No refresh token provided" });
   }
 
   try {
@@ -143,32 +148,27 @@ exports.refreshAccessToken = async (req, res) => {
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET_KEY
     );
-    console.log('decodedToken',decodedToken);
     const employee = await Employee.findById(decodedToken._id);
-    console.log('employee',employee);
 
     if (incomingRefreshToken !== employee?.refreshToken) {
       return res
         .status(401)
         .json({ message: "Invalid or expired refresh token" });
     }
-    console.log('received and database refreshtoken same');
 
-    const { accessToken, refreshToken } =
-      await generateAccessAndRefreshToken(employee);
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+      employee
+    );
 
     // update refreshToken in database
-    console.log("new token", refreshToken);
 
     employee.refreshToken = refreshToken;
     await employee.save({ validateBeforeSave: false });
-    console.log('employee new refreshtoken',employee);
     const options = {
       httpOnly: false,
       secure: true,
     };
 
-    console.log('sending new access and refresh token');
     res
       .status(200)
       .cookie("accessToken", accessToken, options)
@@ -179,6 +179,6 @@ exports.refreshAccessToken = async (req, res) => {
         refreshToken,
       });
   } catch (error) {
-    res.status(401).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
