@@ -32,8 +32,13 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   onSubmit(form: FormGroup) {
-    this.authService.register(form.value).subscribe((res) => {
-      this.getEmployeeList.emit();
+    this.authService.register(form.value).subscribe({
+      next: () => {
+        this.getEmployeeList.emit();
+      },
+      error: (error) => {
+        console.error('Failed to add employee', error.error?.message);
+      },
     });
   }
 }
