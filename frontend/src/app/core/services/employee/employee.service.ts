@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Environment } from '../../../environment/environment';
 
@@ -15,11 +15,27 @@ export class EmployeeService {
       withCredentials: true,
     });
   }
-  getAllEmployees() {
+  // getAllEmployees() {
+  //   return this.http.get(`${this.BASE_URL}/employee/allemployees`, {
+  //     withCredentials: true,
+  //   });
+  // }
+  getAllEmployees(queryParameters:any) {
+    let params = new HttpParams();
+  
+    // Append each query parameter dynamically
+    Object.keys(queryParameters).forEach((key) => {
+      if (queryParameters[key]) {
+        params = params.set(key, queryParameters[key]);
+      }
+    });
+  
     return this.http.get(`${this.BASE_URL}/employee/allemployees`, {
+      params: params, // Attach params here
       withCredentials: true,
     });
   }
+
   getEmployeeById(id: string) {
     return this.http.get(`${this.BASE_URL}/employee/${id}`, {
       withCredentials: true,
