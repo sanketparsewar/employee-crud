@@ -1,63 +1,77 @@
+
 <div class="container vh-100 w-100 d-flex justify-content-center align-items-center">
 
-    <form class="row g-3 border rounded-4 p-4" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
-        <div>
-            <h1 class="text-center">Register</h1>
+    <form class="form g-3 border rounded-4 gap-2" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+        <h3 class="text-center">Create Account</h3>
+        <div class="flex-column">
+            <label>Name </label>
         </div>
-        <div class="col-md-6">
-            <label for="inputName4" class="form-label">Name</label>
-            <input type="text" formControlName="name" class="form-control" id="inputName4">
+        <div class="inputForm">
+            <i class="fa-solid fa-user-tie"></i>
+            <input type="text" formControlName="name" class="input" placeholder="Enter your Name" />
             <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)"
-                class="text-danger">
-                <small *ngIf="registerForm.get('name')?.errors?.['required']">Password is required.</small>
-                <small *ngIf="registerForm.get('name')?.errors?.['minlength']">Minimum 3 character.</small>
+                class="text-danger me-1">
+                <small *ngIf="registerForm.get('name')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('name')?.errors?.['minlength']">Minimum 3 Characters.</small>
             </div>
         </div>
-        <div class="col-md-6">
-            <label for="inputState" class="form-label">Role</label>
-            <select id="inputState" class="form-select" formControlName="role">
-                <option selected value="">Choose...</option>
+        <div class="flex-column">
+            <label>Department </label>
+        </div>
+        <div class="inputForm">
+            <i class="fa-solid fa-id-card"></i>
+            <input type="text" formControlName="department" class="input" placeholder="Enter your Department" />
+            <div class="text-danger me-1"
+                *ngIf="registerForm.get('department')?.invalid && (registerForm.get('department')?.dirty || registerForm.get('department')?.touched)">
+                <small *ngIf="registerForm.get('department')?.errors?.['required']">Required.</small>
+            </div>
+        </div>
+        <div class="flex-column">
+            <label>Role </label>
+        </div>
+        <div class="inputForm">
+            <i class="fa-solid fa-id-badge"></i>
+            <select class="input" name="role" formControlName="role">
+                <option value="" selected>Choose...</option>
                 <option value="Employee">Employee</option>
                 <option value="Admin">Admin</option>
             </select>
-        </div>
-        <div class="col-md-12">
-            <label for="inputDepartment4" class="form-label">Department</label>
-            <input type="text" class="form-control" formControlName="department" id="inputDepartment4">
-            <div class="text-danger"
-                *ngIf="registerForm.get('department')?.invalid && (registerForm.get('department')?.dirty || registerForm.get('department')?.touched)">
-                <small *ngIf="registerForm.get('department')?.errors?.['required']">Department is required.</small>
+            <div *ngIf="registerForm.get('role')?.invalid && (registerForm.get('role')?.dirty || registerForm.get('role')?.touched)"
+                class="text-danger me-1">
+                <small *ngIf="registerForm.get('role')?.errors?.['required']">Required.</small>
             </div>
-
-
         </div>
-        <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">Email</label>
-            <input type="email" class="form-control" formControlName="email" id="inputEmail4">
+        <div class="flex-column">
+            <label>Email </label>
+        </div>
+        <div class="inputForm">
+            <i class="fa-solid fa-at"></i>
+            <input type="text" formControlName="email" class="input" placeholder="Enter your Email" />
             <div *ngIf=" registerForm.get('email')?.invalid && ( registerForm.get('email')?.dirty ||  registerForm.get('email')?.touched)"
-                class="text-danger">
-                <small *ngIf=" registerForm.get('email')?.errors?.['required']">Email is required.</small>
-                <small *ngIf=" registerForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                class="text-danger me-1">
+                <small *ngIf=" registerForm.get('email')?.errors?.['required']">Required.</small>
+                <small *ngIf=" registerForm.get('email')?.errors?.['email']">Invalid Email.</small>
             </div>
         </div>
-        <div class="col-md-6">
-            <label for="inputPassword4" class="form-label">Password</label>
-            <input type="password" class="form-control" formControlName="password" id="inputPassword4">
 
+        <div class="flex-column">
+            <label>Password </label>
+        </div>
+        <div class="inputForm">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" formControlName="password" class="input" placeholder="Enter your Password" />
             <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
-                class="text-danger">
-                <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</small>
-                <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 character.</small>
+                class="text-danger me-1">
+                <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 Characters.</small>
             </div>
         </div>
 
-
+        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-success">Sign up</button>
 
         <div class="col-12 text-center">
-            <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary">Sign up</button>
+            Already have an account? <span><a [routerLink]="['/auth/login']">login here</a></span>
         </div>
-        <div class="col-12 text-center">
-            <a [routerLink]="['/auth/login']">Already have an account? Login here</a>
-        </div>
+
     </form>
 </div>
