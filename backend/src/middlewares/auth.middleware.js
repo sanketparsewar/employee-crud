@@ -2,15 +2,14 @@ const jwt = require("jsonwebtoken");
 const Employee = require("../models/employee.model");
 require("dotenv").config();
 
-// Middleware to verify JWT token
 exports.verifyJwt = async (req, res, next) => {
-  // console.log(req.cookies);
   try {
     const token =
       req.cookies?.accessToken ||
       req.header("Authorization").replace("Bearer ", "");
+
     if (!token) {
-      return res.status(401).json({ message: "Token is not provided" });
+      return res.status(400).json({ message: "Token is not provided" });
     }
     const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
 
