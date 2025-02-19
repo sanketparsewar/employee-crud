@@ -73,7 +73,7 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         if (error.status !== 401)
-          this.toastService.showError(error.error?.message);
+          this.toastService.showWarning(error.error?.message);
       },
     });
   }
