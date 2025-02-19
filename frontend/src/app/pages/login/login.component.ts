@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ToastService } from '../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,11 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   router = inject(Router);
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private toastService: ToastService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -28,15 +33,14 @@ export class LoginComponent {
 
   onSubmit(form: FormGroup) {
     console.log(form.value);
-    this.authService.login(form.value).subscribe((res) => {
-      console.log(res);
-      this.router.navigateByUrl('home');
+    this.authService.login(form.value).subscribe({
+      next: (res: any) => {
+        this.router.navigate(['/home']);
+        this.toastService.showSuccess(res.message);
+      },
+      error: (error) => {
+        this.toastService.showError(error.error.message);
+      },
     });
-  }
-  logout(){
-    this.authService.logout().subscribe((res)=>{
-      console.log('logout');
-      
-    })
   }
 }

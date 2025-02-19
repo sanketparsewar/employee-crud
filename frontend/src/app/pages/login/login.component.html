@@ -9,7 +9,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-at"></i>
-            <input type="text" formControlName="email" class="input" placeholder="Enter your Email" />
+            <input type="text" formControlName="email" class="input" placeholder="Enter Your Email" />
             <div *ngIf=" loginForm.get('email')?.invalid && ( loginForm.get('email')?.dirty ||  loginForm.get('email')?.touched)"
                 class="text-danger me-1">
                 <small *ngIf=" loginForm.get('email')?.errors?.['required']">Required.</small>
@@ -22,7 +22,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" formControlName="password" class="input" placeholder="Enter your Password" />
+            <input type="password" formControlName="password" class="input" placeholder="Enter Your Password" />
             <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
                 class="text-danger me-1">
                 <small *ngIf="loginForm.get('password')?.errors?.['required']">Required.</small>

@@ -8,7 +8,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-user-tie"></i>
-            <input type="text" formControlName="name" class="input" placeholder="Enter your Name" />
+            <input type="text" formControlName="name" class="input" placeholder="Enter Your Name" />
             <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)"
                 class="text-danger me-1">
                 <small *ngIf="registerForm.get('name')?.errors?.['required']">Required.</small>
@@ -20,7 +20,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-id-card"></i>
-            <input type="text" formControlName="department" class="input" placeholder="Enter your Department" />
+            <input type="text" formControlName="department" class="input" placeholder="Enter Your Department" />
             <div class="text-danger me-1"
                 *ngIf="registerForm.get('department')?.invalid && (registerForm.get('department')?.dirty || registerForm.get('department')?.touched)">
                 <small *ngIf="registerForm.get('department')?.errors?.['required']">Required.</small>
@@ -46,7 +46,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-at"></i>
-            <input type="text" formControlName="email" class="input" placeholder="Enter your Email" />
+            <input type="text" formControlName="email" class="input" placeholder="Enter Your Email" />
             <div *ngIf=" registerForm.get('email')?.invalid && ( registerForm.get('email')?.dirty ||  registerForm.get('email')?.touched)"
                 class="text-danger me-1">
                 <small *ngIf=" registerForm.get('email')?.errors?.['required']">Required.</small>
@@ -59,7 +59,7 @@
         </div>
         <div class="inputForm">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" formControlName="password" class="input" placeholder="Enter your Password" />
+            <input type="password" formControlName="password" class="input" placeholder="Enter Your Password" />
             <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
                 class="text-danger me-1">
                 <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
