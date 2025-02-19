@@ -30,7 +30,7 @@ export class AuthService {
   refreshToken() {
     return this.http.post(
       `${this.BASE_URL}/auth/refresh-token`,
-      {},
+      {}, 
       {
         withCredentials: true,
       }
