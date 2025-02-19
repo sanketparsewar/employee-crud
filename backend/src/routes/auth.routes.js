@@ -3,10 +3,10 @@ const { register, login, logout,refreshAccessToken } = require("../controllers/a
 const { verifyJwt } = require("../middlewares/auth.middleware");
 const router = express.Router();
 
-
+// auth routes
 router.post("/register", register);
 router.post("/login", login);
-router.get("/logout", verifyJwt, logout);
+router.get("/logout", logout);
 router.post('/refresh-token',refreshAccessToken)
 
 module.exports = router;
