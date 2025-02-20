@@ -45,14 +45,44 @@
                     Employee</button>
             </div>
             <div class="collapse" id="filterOptions">
-                <div class="row g-3 align-items-center">
-                    <div class="col-auto">
+                <div class="row  align-items-center">
+                    <div class="col-12">
                         <label for="inputName6" class="col-form-label">Search </label>
                         <input class="form-control me-2" name="search" (input)="onChangeFilter($event)" type="search"
                             placeholder="Search name or department" aria-label="Search">
 
                     </div>
-                    <div class="col-auto">
+                    <div class="col-6">
+                        <label for="inputSortBy" class="col-form-label">SortBy</label>
+                        <select name="sortBy" (change)="onChangeFilter($event)" id="inputSortBy" class="form-select">
+                            <option value="name">Name</option>
+                            <option value="department">Department</option>
+                        </select>
+                    </div>
+                    <div class="col-6 d-flex flex-column align-items-center justify-content-center">
+                        <div class="pb-1">
+                          <input 
+                            type="radio" 
+                            [checked]="queryParameters.sortOrder === 'asc'"  
+                            name="sortOrder" 
+                            (change)="onChangeFilter($event)" 
+                            value="asc"  
+                            id="asc">
+                          <label for="asc">A - Z</label>
+                        </div>
+                        <div class="pt-1" >
+                          <input 
+                            type="radio" 
+                            [checked]="queryParameters.sortOrder === 'desc'"  
+                            name="sortOrder" 
+                            (change)="onChangeFilter($event)" 
+                            value="desc" 
+                            id="desc">
+                          <label for="desc">Z - A</label>
+                        </div>
+                      </div>
+                      
+                    <div class="col-6">
                         <label for="inputRole6" class="col-form-label">Role</label>
                         <select name="role" (change)="onChangeFilter($event)" id="inputRole6" class="form-select">
                             <option value="">All roles</option>
@@ -60,7 +90,7 @@
                             <option value="Admin">Admin</option>
                         </select>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-6">
                         <label for="inputLimit6" class="col-form-label">Limit</label>
                         <select name="limit" (change)="onChangeFilter($event)" id="inputLimit6" class="form-select">
                             <option value="10">10</option>

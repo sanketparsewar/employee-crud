@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
     role: '',
     limit: 10,
     page: 1,
+    sortBy:'name',
+    sortOrder:'asc',
   };
   totalPages: number = 1;
   totalPagesArray: number[] = [];

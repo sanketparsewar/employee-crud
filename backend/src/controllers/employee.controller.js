@@ -30,7 +30,7 @@ exports.getAllEmployees = async (req, res) => {
     //   return res.status(403).json({ message: "Unauthorized access" });
     // }
 
-    let { search, role, limit, page } = req.query;
+    let { search, role, limit, page,sortBy, sortOrder } = req.query;
     limit = parseInt(limit);
     page = parseInt(page);
     const skip = (page - 1) * limit;
@@ -49,9 +49,15 @@ exports.getAllEmployees = async (req, res) => {
       filter.role = role;
     }
 
+    let sorting = {};
+    if(sortBy){
+      sorting[sortBy] = sortOrder === "asc"? 1 : -1;
+    }
+
     // Fetch employees with filtering, pagination, and field exclusion
     const employees = await Employee.find(filter)
       .select("-password -refreshToken -__v")
+      .sort(sorting)
       .limit(limit)
       .skip(skip);
 
