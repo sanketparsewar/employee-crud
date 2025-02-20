@@ -109,7 +109,7 @@ exports.logout = async (req, res) => {
       return res.status(401).json({ message: "Token is not provided" });
     }
     const decode = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET_KEY);
-
+    console.log("louout", decode);
     await Employee.findByIdAndUpdate(
       decode._id,
       {

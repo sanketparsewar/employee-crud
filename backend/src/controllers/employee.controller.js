@@ -26,9 +26,9 @@ exports.getEmployeeById = async (req, res) => {
 
 exports.getAllEmployees = async (req, res) => {
   try {
-    if (req.employee.role !== "Admin") {
-      return res.status(403).json({ message: "Unauthorized access" });
-    }
+    // if (req.employee.role !== "Admin") {
+    //   return res.status(403).json({ message: "Unauthorized access" });
+    // }
 
     let { search, role, limit, page } = req.query;
     limit = parseInt(limit);
