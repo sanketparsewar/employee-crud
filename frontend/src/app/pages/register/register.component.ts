@@ -34,15 +34,24 @@ export class RegisterComponent {
     });
   }
   onSubmit(form: FormGroup) {
-    console.log(form.value);
     this.authService.register(form.value).subscribe({
       next: () => {
+        this.resetForm();
         this.router.navigate(['/login']);
         this.toastService.showSuccess('Registration successful. Please login.');
       },
       error: (error) => {
         this.toastService.showError(error.error.message);
       },
+    });
+  }
+  resetForm() { 
+    this.registerForm.reset({ 
+      name: '', 
+      department: '', 
+      role: '', 
+      email: '', 
+      password: '' 
     });
   }
 }
