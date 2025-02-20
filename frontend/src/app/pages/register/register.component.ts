@@ -26,11 +26,11 @@ export class RegisterComponent {
     private toastService: ToastService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      department: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
+      department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
       role: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(16)]],
     });
   }
   onSubmit(form: FormGroup) {

@@ -1,3 +1,4 @@
+import { ToastService } from './../../../core/services/toast/toast.service';
 import { AuthService } from './../../../core/services/auth/auth.service';
 import { EmployeeService } from './../../../core/services/employee/employee.service';
 import { CommonModule } from '@angular/common';
@@ -18,27 +19,41 @@ import {
 })
 export class AddEmployeeComponent implements OnInit {
   @Output() getEmployeeList = new EventEmitter();
-  updateForm!: FormGroup;
+  addEmployeeForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService,private toastService:ToastService) {}
   ngOnInit() {
-    this.updateForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      department: ['', [Validators.required, Validators.minLength(3)]],
+    this.addEmployeeForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
+      department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
       role: ['Employee', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(16)]],
     });
   }
 
   onSubmit(form: FormGroup) {
     this.authService.register(form.value).subscribe({
       next: () => {
+        this.resetForm();
         this.getEmployeeList.emit();
+        this.toastService.showSuccess('Employee added successfully');
       },
       error: (error) => {
-        console.error('Failed to add employee', error.error?.message);
+        this.toastService.showError(error.error.message);
+        // console.error('Failed to add employee', error.error?.message);
       },
     });
   }
+
+  resetForm() { 
+    this.addEmployeeForm.reset({ 
+      name: '', 
+      department: '', 
+      role: 'Employee', 
+      email: '', 
+      password: '' 
+    });
+  }
+
 }

@@ -1,20 +1,22 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
+                <h1 class="modal-title fs-5" id="addEmployeeModalLabel">Edit Profile</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3 rounded-4 p-2" [formGroup]="updateForm" (ngSubmit)="onSubmit(updateForm)">
+                <form class="row g-3 rounded-4 p-2" [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit(addEmployeeForm)">
                     <div class="col-md-12">
-                        <label for="inputName4" class="form-label">Name</label>
-                        <input type="text" formControlName="name" class="form-control" id="inputName4">
-                        <div *ngIf="updateForm.get('name')?.invalid && (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)"
+                        <label for="inputName" class="form-label">Name</label>
+                        <input type="text" formControlName="name" class="form-control" id="inputName">
+                        <div *ngIf="addEmployeeForm.get('name')?.invalid && (addEmployeeForm.get('name')?.dirty || addEmployeeForm.get('name')?.touched)"
                             class="text-danger">
-                            <small *ngIf="updateForm.get('name')?.errors?.['required']">Name is required.</small>
-                            <small *ngIf="updateForm.get('name')?.errors?.['minlength']">Minimum 3 character.</small>
+                            <small *ngIf="addEmployeeForm.get('name')?.errors?.['required']">Name is required.</small>
+                            <small *ngIf="addEmployeeForm.get('name')?.errors?.['minlength']">Minimum 3 character.</small>
+                <small *ngIf="addEmployeeForm.get('name')?.errors?.['maxlength']">Maximum 25 Characters.</small>
+                        
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -26,42 +28,43 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="inputDepartment4" class="form-label">Department</label>
-                        <input type="text" class="form-control" formControlName="department" id="inputDepartment4">
+                        <label for="inputDepartment" class="form-label">Department</label>
+                        <input type="text" class="form-control" formControlName="department" id="inputDepartment">
                         <div class="text-danger"
-                            *ngIf="updateForm.get('department')?.invalid && (updateForm.get('department')?.dirty || updateForm.get('department')?.touched)">
-                            <small *ngIf="updateForm.get('department')?.errors?.['required']">Department is
+                            *ngIf="addEmployeeForm.get('department')?.invalid && (addEmployeeForm.get('department')?.dirty || addEmployeeForm.get('department')?.touched)">
+                            <small *ngIf="addEmployeeForm.get('department')?.errors?.['required']">Department is
                                 required.</small>
+                <small *ngIf="addEmployeeForm.get('department')?.errors?.['maxlength']">Maximum 25 Characters.</small>
+
                         </div>
 
 
                     </div>
                     <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" class="form-control" formControlName="email" id="inputEmail4">
-                        <div *ngIf=" updateForm.get('email')?.invalid && ( updateForm.get('email')?.dirty ||  updateForm.get('email')?.touched)"
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email" id="inputEmail">
+                        <div *ngIf=" addEmployeeForm.get('email')?.invalid && ( addEmployeeForm.get('email')?.dirty ||  addEmployeeForm.get('email')?.touched)"
                             class="text-danger">
-                            <small *ngIf=" updateForm.get('email')?.errors?.['required']">Email is required.</small>
-                            <small *ngIf=" updateForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['required']">Email is required.</small>
+                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['email']">Invalid email format.</small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="inputPassword4" class="form-label">Password</label>
                         <input type="password" class="form-control" formControlName="password" id="inputPassword4">
 
-                        <div *ngIf="updateForm.get('password')?.invalid && (updateForm.get('password')?.dirty || updateForm.get('password')?.touched)"
+                        <div *ngIf="addEmployeeForm.get('password')?.invalid && (addEmployeeForm.get('password')?.dirty || addEmployeeForm.get('password')?.touched)"
                             class="text-danger">
-                            <small *ngIf="updateForm.get('password')?.errors?.['required']">Password is
-                                required.</small>
-                            <small *ngIf="updateForm.get('password')?.errors?.['minlength']">Minimum 6
-                                character.</small>
-                        </div>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['required']">Required.</small>
+                <small *ngIf="addEmployeeForm.get('password')?.errors?.['minlength']">Minimum 6 Characters.</small>
+                <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.</small>
+            </div>
                     </div>
 
                     <div class="d-flex gap-3 justify-content-end">
                         <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
-                            [disabled]="updateForm.invalid">Save changes</button>
+                            [disabled]="addEmployeeForm.invalid">Save</button>
                     </div>
                 </form>
             </div>

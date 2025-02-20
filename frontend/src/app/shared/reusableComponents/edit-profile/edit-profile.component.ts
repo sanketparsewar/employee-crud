@@ -1,5 +1,6 @@
+import { EmployeeService } from './../../../core/services/employee/employee.service';
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,27 +15,32 @@ import {
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   @Input() employeeData: any;
+  @Output() getEmployeeData = new EventEmitter();
   updateForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService
+  ) {
     console.log('Employee data:', this.employeeData);
     this.updateForm = this.fb.group({
-      name: [
-        this.employeeData?.name,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      department: [
-        this.employeeData?.department,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      // role: [''],
-      email: [this.employeeData?.email, [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
+      department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
+  
+  ngOnInit(): void {
+    console.log('empldata',this.employeeData);
+    
+  }
+
   onSubmit(form: FormGroup) {
+    this.employeeService.updateEmployee(form.value).subscribe({});
+    this.getEmployeeData.emit(form.value);
     console.log(form.value);
   }
 }

@@ -13,6 +13,7 @@
                 class="text-danger me-1">
                 <small *ngIf="registerForm.get('name')?.errors?.['required']">Required.</small>
                 <small *ngIf="registerForm.get('name')?.errors?.['minlength']">Minimum 3 Characters.</small>
+                <small *ngIf="registerForm.get('name')?.errors?.['maxlength']">Maximum 25 Characters.</small>
             </div>
         </div>
         <div class="flex-column">
@@ -24,6 +25,7 @@
             <div class="text-danger me-1"
                 *ngIf="registerForm.get('department')?.invalid && (registerForm.get('department')?.dirty || registerForm.get('department')?.touched)">
                 <small *ngIf="registerForm.get('department')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('department')?.errors?.['maxlength']">Maximum 25 Characters.</small>
             </div>
         </div>
         <div class="flex-column">
@@ -64,6 +66,7 @@
                 class="text-danger me-1">
                 <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
                 <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 Characters.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.</small>
             </div>
         </div>
 
