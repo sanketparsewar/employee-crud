@@ -71,7 +71,7 @@ exports.getAllEmployees = async (req, res) => {
 exports.updateEmployee = async (req, res) => {
   try {
     const id = req.employee._id;
-    const { name, email, department, role } = req.body;
+    const { name, email, department } = req.body;
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       {
@@ -79,7 +79,6 @@ exports.updateEmployee = async (req, res) => {
           name: name || this.updateEmployee.name,
           email: email || this.updateEmployee.email,
           department: department || this.updateEmployee.department,
-          role: role || this.updateEmployee.role,
         },
       },
       { new: true }

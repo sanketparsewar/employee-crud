@@ -108,14 +108,11 @@ exports.logout = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: "Token is not provided" });
     }
-    const decode = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+    // const decode = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+    const decode = jwt.decode(token);
     await Employee.findByIdAndUpdate(
       decode._id,
-      {
-        $set: {
-          refreshToken: undefined,
-        },
-      },
+      { $unset: { refreshToken: "" } },
       { new: true }
     );
 
@@ -134,8 +131,7 @@ exports.logout = async (req, res) => {
 };
 
 exports.refreshAccessToken = async (req, res) => {
-  // access refreshToken from cookies or body
-  // if not got refreshToken then send 401 status
+  
   const incomingRefreshToken =
     req.cookies?.refreshToken || req.body?.refreshToken;
   if (!incomingRefreshToken) {
