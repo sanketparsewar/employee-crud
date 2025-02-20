@@ -26,7 +26,7 @@ export class AddEmployeeComponent implements OnInit {
     this.addEmployeeForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
       department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
-      role: ['Employee', [Validators.required]],
+      role: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(16)]],
     });
@@ -49,7 +49,7 @@ export class AddEmployeeComponent implements OnInit {
     this.addEmployeeForm.reset({ 
       name: '', 
       department: '', 
-      role: 'Employee', 
+      role: '', 
       email: '', 
       password: '' 
     });

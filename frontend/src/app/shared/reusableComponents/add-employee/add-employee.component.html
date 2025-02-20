@@ -7,24 +7,27 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3 rounded-4 p-2" [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit(addEmployeeForm)">
+                <form class="row g-3 rounded-4 p-2" [formGroup]="addEmployeeForm"
+                    (ngSubmit)="onSubmit(addEmployeeForm)">
                     <div class="col-md-12">
                         <label for="inputName" class="form-label">Name</label>
                         <input type="text" formControlName="name" class="form-control" id="inputName">
                         <div *ngIf="addEmployeeForm.get('name')?.invalid && (addEmployeeForm.get('name')?.dirty || addEmployeeForm.get('name')?.touched)"
                             class="text-danger">
                             <small *ngIf="addEmployeeForm.get('name')?.errors?.['required']">Name is required.</small>
-                            <small *ngIf="addEmployeeForm.get('name')?.errors?.['minlength']">Minimum 3 character.</small>
-                <small *ngIf="addEmployeeForm.get('name')?.errors?.['maxlength']">Maximum 25 Characters.</small>
-                        
+                            <small *ngIf="addEmployeeForm.get('name')?.errors?.['minlength']">Minimum 3
+                                character.</small>
+                            <small *ngIf="addEmployeeForm.get('name')?.errors?.['maxlength']">Maximum 25
+                                Characters.</small>
+
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="inputState" class="form-label">Role</label>
                         <select id="inputState" class="form-select" formControlName="role">
-                            <!-- <option selected value="">Choose...</option> -->
+                            <option selected value="">Choose...</option>
                             <option value="Employee">Employee</option>
-                            <!-- <option value="Admin">Admin</option> -->
+                            <option value="Admin">Admin</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -34,7 +37,8 @@
                             *ngIf="addEmployeeForm.get('department')?.invalid && (addEmployeeForm.get('department')?.dirty || addEmployeeForm.get('department')?.touched)">
                             <small *ngIf="addEmployeeForm.get('department')?.errors?.['required']">Department is
                                 required.</small>
-                <small *ngIf="addEmployeeForm.get('department')?.errors?.['maxlength']">Maximum 25 Characters.</small>
+                            <small *ngIf="addEmployeeForm.get('department')?.errors?.['maxlength']">Maximum 25
+                                Characters.</small>
 
                         </div>
 
@@ -45,8 +49,10 @@
                         <input type="email" class="form-control" formControlName="email" id="inputEmail">
                         <div *ngIf=" addEmployeeForm.get('email')?.invalid && ( addEmployeeForm.get('email')?.dirty ||  addEmployeeForm.get('email')?.touched)"
                             class="text-danger">
-                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['required']">Email is required.</small>
-                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['required']">Email is
+                                required.</small>
+                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['email']">Invalid email
+                                format.</small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -56,9 +62,11 @@
                         <div *ngIf="addEmployeeForm.get('password')?.invalid && (addEmployeeForm.get('password')?.dirty || addEmployeeForm.get('password')?.touched)"
                             class="text-danger">
                             <small *ngIf="addEmployeeForm.get('password')?.errors?.['required']">Required.</small>
-                <small *ngIf="addEmployeeForm.get('password')?.errors?.['minlength']">Minimum 6 Characters.</small>
-                <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.</small>
-            </div>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['minlength']">Minimum 6
+                                Characters.</small>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16
+                                Characters.</small>
+                        </div>
                     </div>
 
                     <div class="d-flex gap-3 justify-content-end">
