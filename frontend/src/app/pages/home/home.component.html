@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" >EMP-CRUD</a>
+        <a class="navbar-brand">EMP-CRUD</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
+
                 <li class="nav-item dropdown">
-                    <a class="border rounded-3 nav-link dropdown-toggle"  role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="border rounded-3 nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         {{employeeData?.name}}
                     </a>
 
@@ -33,22 +33,24 @@
 </nav>
 
 <div class="container mt-3">
-    <div class="row" >
+    <div class="row">
         <div class="col-md-3">
             <div class="d-flex justify-content-evenly">
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#filterOptions" aria-expanded="false" aria-controls="filterOptions">
                     <i class="fa-solid fa-filter"></i> Filter
                 </button>
-                <button *ngIf="employeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                    data-bs-target="#addEmployeeModal"><i class="fa-solid fa-circle-plus"></i> Employee</button>
+                <button *ngIf="employeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary"
+                    data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-circle-plus"></i>
+                    Employee</button>
             </div>
             <div class="collapse" id="filterOptions">
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
                         <label for="inputName6" class="col-form-label">Search </label>
-                        <input class="form-control me-2" name="search" (input)="onSearch($event)" type="search"
+                        <input class="form-control me-2" name="search" (input)="onChangeFilter($event)" type="search"
                             placeholder="Search name or department" aria-label="Search">
+
                     </div>
                     <div class="col-auto">
                         <label for="inputRole6" class="col-form-label">Role</label>
@@ -67,7 +69,7 @@
                             <option value="">All</option>
                         </select>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -90,7 +92,7 @@
                         <td>{{employee.department}}</td>
                         <td>{{employee.role}}</td>
                         <td>{{employee.email}}</td>
-                        <td *ngIf="employeeData?.role==='Admin'" >
+                        <td *ngIf="employeeData?.role==='Admin'">
                             <div class="d-flex justify-content-evenly">
                                 <button class="btn text-danger" (click)="deleteEmployee(employee)">
                                     <i class="fa-solid fa-trash-can"></i>
@@ -99,37 +101,31 @@
                         </td>
                     </tr>
 
+
                 </tbody>
             </table>
-           <div>
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <!-- Previous Button -->
-                    <li class="page-item" [class.disabled]="currentPage === 1">
-                        <a class="page-link" (click)="changePage(currentPage - 1)"><i class="fa-solid fa-backward"></i></a>
-                    </li>
-            
-                    <!-- Page Numbers -->
-                    <li *ngFor="let page of totalPagesArray" class="page-item" [class.active]="currentPage === page">
-                        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
-                    </li>
-            
-                    <!-- Next Button -->
-                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                        <a class="page-link" (click)="changePage(currentPage + 1)"><i class="fa-solid fa-forward"></i></a>
-                    </li>
-                </ul>
-            </nav>
-           </div>
-        
+            <div>
+                <p *ngIf="employeeList.length === 0" class="text-center">No employees found.</p>
+
+                <ng-container *ngIf="employeeList.length !== 0" >
+                    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
+                    [totalPagesArray]="totalPagesArray" [queryParameters]="queryParameters"
+                    (getEmployeeList)="getEmployeeList()"></app-pagination>
+
+                </ng-container>
+
+
+            </div>
+
         </div>
     </div>
-  
+
 </div>
 
 
 
 <app-add-employee (getEmployeeList)="getEmployeeList()"></app-add-employee>
 
-
-<app-edit-profile (getEmployeeData)="getLoggedEmployee()"></app-edit-profile>
+<ng-container *ngIf="employeeData">
+    <app-edit-profile [employeeData]="employeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
+</ng-container>
