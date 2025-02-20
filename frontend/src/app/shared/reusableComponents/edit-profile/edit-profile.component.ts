@@ -18,29 +18,42 @@ import {
 export class EditProfileComponent implements OnInit {
   @Input() employeeData: any;
   @Output() getEmployeeData = new EventEmitter();
-  updateForm: FormGroup;
+  updateForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService
-  ) {
-    console.log('Employee data:', this.employeeData);
-    this.updateForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
-      department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
-      email: ['', [Validators.required, Validators.email]],
-    });
-  }
+  ) {}
 
-  
   ngOnInit(): void {
-    console.log('empldata',this.employeeData);
-    
+    this.updateForm = this.fb.group({
+      name: [
+        this.employeeData.name,
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      department: [
+        this.employeeData.department,
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      email: [this.employeeData.email, [Validators.required, Validators.email]],
+    });
+    console.log('empldata', this.employeeData);
   }
 
-  onSubmit(form: FormGroup) {
-    this.employeeService.updateEmployee(form.value).subscribe({});
-    this.getEmployeeData.emit(form.value);
-    console.log(form.value);
+  onSubmit(updateForm: FormGroup) {
+    this.employeeService.updateEmployee(updateForm.value).subscribe({
+      next: () => {
+        this.getEmployeeData.emit();
+      },
+    });
+    console.log(updateForm.value);
   }
 }

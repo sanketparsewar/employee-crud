@@ -41,7 +41,6 @@ export class AddEmployeeComponent implements OnInit {
       },
       error: (error) => {
         this.toastService.showError(error.error.message);
-        // console.error('Failed to add employee', error.error?.message);
       },
     });
   }
