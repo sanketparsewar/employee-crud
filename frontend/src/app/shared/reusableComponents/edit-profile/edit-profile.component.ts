@@ -1,3 +1,4 @@
+import { ToastService } from './../../../core/services/toast/toast.service';
 import { EmployeeService } from './../../../core/services/employee/employee.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -22,7 +23,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -45,15 +47,16 @@ export class EditProfileComponent implements OnInit {
       ],
       email: [this.employeeData.email, [Validators.required, Validators.email]],
     });
-    console.log('empldata', this.employeeData);
   }
 
   onSubmit(updateForm: FormGroup) {
     this.employeeService.updateEmployee(updateForm.value).subscribe({
       next: () => {
         this.getEmployeeData.emit();
+        this.toastService.showSuccess('Profile updated successfully');
+      },error:(error)=>{
+        this.toastService.showError(error.error.message);
       },
     });
-    console.log(updateForm.value);
   }
 }
