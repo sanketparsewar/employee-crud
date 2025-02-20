@@ -7,11 +7,8 @@ export const employeeGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = cookieService.get('accessToken');
   if (token) {
-    // console.log('Token exists', token);
     return true; // Allow access if token exists
   } else {
-    console.log(token);
-
     router.navigate(['/auth/login']); // Redirect to login if token is missing
     return false;
   }
