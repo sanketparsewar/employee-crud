@@ -62,11 +62,12 @@
         <div class="inputForm">
             <i class="fa-solid fa-lock"></i>
             <input type="password" formControlName="password" class="input" placeholder="Enter Your Password" />
+            
             <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
-                class="text-danger me-1">
+                class="text-danger me-1 fs-6">
                 <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
-                <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Minimum 6 Characters.</small>
-                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['pattern']">Weak Password</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters. </small>
             </div>
         </div>
 

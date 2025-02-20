@@ -30,7 +30,8 @@ export class RegisterComponent {
       department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
       role: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.maxLength(16),Validators.maxLength(16),Validators.pattern('^(?=.*[A-Z])(?=.*\\d).{6,}$')]],
+
     });
   }
   onSubmit(form: FormGroup) {

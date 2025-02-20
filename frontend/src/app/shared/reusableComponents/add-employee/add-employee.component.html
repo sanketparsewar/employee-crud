@@ -49,8 +49,7 @@
                         <input type="email" class="form-control" formControlName="email" id="inputEmail">
                         <div *ngIf=" addEmployeeForm.get('email')?.invalid && ( addEmployeeForm.get('email')?.dirty ||  addEmployeeForm.get('email')?.touched)"
                             class="text-danger">
-                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['required']">Email is
-                                required.</small>
+                            <small *ngIf=" addEmployeeForm.get('email')?.errors?.['required']">Required.</small>
                             <small *ngIf=" addEmployeeForm.get('email')?.errors?.['email']">Invalid email
                                 format.</small>
                         </div>
@@ -62,15 +61,14 @@
                         <div *ngIf="addEmployeeForm.get('password')?.invalid && (addEmployeeForm.get('password')?.dirty || addEmployeeForm.get('password')?.touched)"
                             class="text-danger">
                             <small *ngIf="addEmployeeForm.get('password')?.errors?.['required']">Required.</small>
-                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['minlength']">Minimum 6
-                                Characters.</small>
-                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16
-                                Characters.</small>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['pattern']">Weak Password</small>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.
+                            </small>
+
                         </div>
                     </div>
 
                     <div class="d-flex gap-3 justify-content-end">
-                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
                             [disabled]="addEmployeeForm.invalid">Save</button>
                     </div>
