@@ -1,12 +1,10 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../toast/toast.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const router = inject(Router); // Inject Router dynamically
   const authService = inject(AuthService);
   const toastService = inject(ToastService);
   return next(req).pipe(
@@ -20,8 +18,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           }),
           catchError((refreshError) => {
             toastService.showError('Session expired. Please login to continue');
-            authService.logout(); // Clear session if needed
-            router.navigate(['/login']); // Redirect to login
+            authService.logout().subscribe({
+              next: () => {
+                toastService.showSuccess('Logged out successfully');
+              },
+              error: (error) => {
+                toastService.showError(error.error?.message);
+              },
+            });
             return throwError(() => refreshError);
           })
         );
