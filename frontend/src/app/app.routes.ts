@@ -11,15 +11,14 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
-  { path: 'home', component: HomeComponent,canActivate:[employeeGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [employeeGuard] },
 
-  // Add other routes here...
   {
     path: 'auth',
-    canActivate:[authGuard],
+    canActivate: [authGuard],
     children: [
-      { path: 'login', component: LoginComponent},
-      { path: 'register', component: RegisterComponent},
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
     ],
   },
 ];

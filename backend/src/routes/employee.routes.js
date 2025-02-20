@@ -1,5 +1,6 @@
 const express = require("express");
-const {getLoggedEmployee,
+const {
+  getLoggedEmployee,
   getEmployeeById,
   getAllEmployees,
   updateEmployee,

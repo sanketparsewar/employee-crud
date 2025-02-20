@@ -7,10 +7,9 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = cookieService.get('accessToken');
   if (!token) {
-    // console.log('Token not exists',token);
-    return true; // Allow access if token exists
+    return true; // Allow access if no token exists
   } else {
-    router.navigate(['/home']); // Redirect to login if token is missing
+    router.navigate(['/home']); // Redirect to home if token is present
     return false;
   }
 };
