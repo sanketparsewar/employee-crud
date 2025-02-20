@@ -1,26 +1,22 @@
 <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" >EMP-CRUD</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li> -->
+                
                 <li class="nav-item dropdown">
-                    <a class="border rounded-3 nav-link dropdown-toggle" href="#" role="button"
+                    <a class="border rounded-3 nav-link dropdown-toggle"  role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {{employeeData?.name}}
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">Edit profile</a></li>
-                        <li>
-                            <a class="dropdown-item text-danger">Delete Account</a>
-                        </li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit
+                                profile</a></li>
                     </ul>
                 </li>
             </ul>
@@ -37,15 +33,15 @@
 </nav>
 
 <div class="container mt-3">
-    <div class="row" *ngIf="employeeData?.role==='Admin'">
+    <div class="row" >
         <div class="col-md-3">
             <div class="d-flex justify-content-evenly">
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#filterOptions" aria-expanded="false" aria-controls="filterOptions">
                     <i class="fa-solid fa-filter"></i> Filter
                 </button>
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                        class="fa-solid fa-circle-plus"></i> Employee</button>
+                <button *ngIf="employeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                    data-bs-target="#addEmployeeModal"><i class="fa-solid fa-circle-plus"></i> Employee</button>
             </div>
             <div class="collapse" id="filterOptions">
                 <div class="row g-3 align-items-center">
@@ -71,14 +67,7 @@
                             <option value="">All</option>
                         </select>
                     </div>
-                    <div class="col-auto">
-                        <label for="inputPage6" class="col-form-label">Page</label>
-                        <select name="page" (change)="onChangeFilter($event)" id="inputPage6" class="form-select">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -90,7 +79,8 @@
                         <th scope="col">Name</th>
                         <th scope="col">Department</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Email</th>
+                        <th scope="col" *ngIf="employeeData?.role==='Admin'">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,7 +89,8 @@
                         <td>{{employee.name}}</td>
                         <td>{{employee.department}}</td>
                         <td>{{employee.role}}</td>
-                        <td>
+                        <td>{{employee.email}}</td>
+                        <td *ngIf="employeeData?.role==='Admin'" >
                             <div class="d-flex justify-content-evenly">
                                 <button class="btn text-danger" (click)="deleteEmployee(employee)">
                                     <i class="fa-solid fa-trash-can"></i>
@@ -110,13 +101,35 @@
 
                 </tbody>
             </table>
+           <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <!-- Previous Button -->
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                        <a class="page-link" (click)="changePage(currentPage - 1)"><i class="fa-solid fa-backward"></i></a>
+                    </li>
+            
+                    <!-- Page Numbers -->
+                    <li *ngFor="let page of totalPagesArray" class="page-item" [class.active]="currentPage === page">
+                        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+                    </li>
+            
+                    <!-- Next Button -->
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                        <a class="page-link" (click)="changePage(currentPage + 1)"><i class="fa-solid fa-forward"></i></a>
+                    </li>
+                </ul>
+            </nav>
+           </div>
+        
         </div>
     </div>
-    <div class="row" *ngIf="employeeData?.role!=='Admin'">
-        <h6 class="text-center m-3"> Access only to Admin!</h6>
-    </div>
+  
 </div>
 
 
 
 <app-add-employee (getEmployeeList)="getEmployeeList()"></app-add-employee>
+
+
+<app-edit-profile (getEmployeeData)="getLoggedEmployee()"></app-edit-profile>
