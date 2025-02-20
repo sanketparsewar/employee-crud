@@ -109,7 +109,6 @@ exports.logout = async (req, res) => {
       return res.status(401).json({ message: "Token is not provided" });
     }
     const decode = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET_KEY);
-    console.log("louout", decode);
     await Employee.findByIdAndUpdate(
       decode._id,
       {
@@ -162,8 +161,6 @@ exports.refreshAccessToken = async (req, res) => {
 
     // update refreshToken in database
 
-    employee.refreshToken = refreshToken;
-    await employee.save({ validateBeforeSave: false });
     const options = {
       httpOnly: false,
       secure: true,

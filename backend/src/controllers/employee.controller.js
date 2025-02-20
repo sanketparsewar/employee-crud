@@ -57,10 +57,6 @@ exports.getAllEmployees = async (req, res) => {
 
     const totalEmployees = await Employee.countDocuments(filter); // Get total count for pagination
 
-    if (employees.length === 0) {
-      return res.status(404).json({ message: "No employees found" });
-    }
-
     res.status(200).json({
       employees,
       totalEmployees,
