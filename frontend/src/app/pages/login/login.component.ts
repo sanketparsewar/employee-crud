@@ -32,7 +32,6 @@ export class LoginComponent {
   }
 
   onSubmit(form: FormGroup) {
-    console.log(form.value);
     this.authService.login(form.value).subscribe({
       next: (res: any) => {
         this.router.navigate(['/home']);
