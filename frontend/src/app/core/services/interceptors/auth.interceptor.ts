@@ -3,8 +3,10 @@ import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../toast/toast.service';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const router=inject(Router)
   const authService = inject(AuthService);
   const toastService = inject(ToastService);
   return next(req).pipe(
@@ -17,10 +19,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(req);
           }),
           catchError((refreshError) => {
-            toastService.showError('Session expired. Please login to continue');
             authService.logout().subscribe({
               next: () => {
-                toastService.showSuccess('Logged out successfully');
+                toastService.showError('Session expired. Please login to continue');
+                router.navigate(['auth', 'login']);
               },
               error: (error) => {
                 toastService.showError(error.error?.message);
