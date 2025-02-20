@@ -42,4 +42,9 @@ export class EmployeeService {
       withCredentials: true,
     });
   }
+  updateEmployee(employee: any) {
+    return this.http.put(`${this.BASE_URL}/employee/`, employee, {
+      withCredentials: true,
+    });
+  }
 }
