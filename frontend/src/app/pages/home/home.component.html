@@ -99,9 +99,9 @@
                     <div class="col-6">
                         <label for="inputLimit6" class="col-form-label">Limit</label>
                         <select name="limit" (change)="onChangeLimit($event)" id="inputLimit6" class="form-select">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
+                            <option [value]="10">10</option>
+                            <option [value]="20">20</option>
+                            <option [value]="50">50</option> 
                             <option [value]="totalEmployees">All</option>
                         </select>
                     </div>

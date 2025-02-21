@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   queryParameters: any = {
     search: '',
     role: '',
-    limit: 2,
+    limit: 10,
     page: 1,
     sortBy: 'name',
     sortOrder: 'asc',
@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
 
   onChangeFilter(event: any) {
     this.queryParameters[event.target.name] = event.target.value;
+    this.queryParameters.page = 1;
     this.getEmployeeList();
   }
   onChangeLimit(event: any) {
