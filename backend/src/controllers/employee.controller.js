@@ -51,7 +51,7 @@ exports.getAllEmployees = async (req, res) => {
 
     let sorting = {};
     if(sortBy){
-      sorting[sortBy] = sortOrder === "asc"? 1 : -1;
+      sorting[sortBy] = sortOrder === "asc"? 1 : -1; //1 for ascending and -1 for descending
     }
 
     // Fetch employees with filtering, pagination, and field exclusion

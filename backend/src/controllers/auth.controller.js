@@ -89,10 +89,7 @@ exports.login = async (req, res) => {
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
       .json({
-        message: "Logged in successfully",
-        employee: loggedInEmployee,
-        accessToken,
-        refreshToken,
+        message: "Logged in successfully"
       });
   } catch (error) {
     res.status(500).json({ message: "Error logging in" });
@@ -131,7 +128,6 @@ exports.logout = async (req, res) => {
 };
 
 exports.refreshAccessToken = async (req, res) => {
-  
   const incomingRefreshToken =
     req.cookies?.refreshToken || req.body?.refreshToken;
   if (!incomingRefreshToken) {
@@ -167,9 +163,7 @@ exports.refreshAccessToken = async (req, res) => {
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
       .json({
-        message: "Access token refreshed successfully",
-        accessToken,
-        refreshToken,
+        message: "Access token refreshed successfully"
       });
   } catch (error) {
     res.status(500).json({ message: error.message });

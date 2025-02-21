@@ -14,7 +14,7 @@ exports.verifyJwt = async (req, res, next) => {
     const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
 
     const employee = await Employee.findById(decode?._id).select(
-      "-password -refreshToken"
+      "-password -refreshToken "
     );
     if (!employee) {
       return res.status(403).json({ message: "Unauthorized access" });
