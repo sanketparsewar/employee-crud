@@ -41,7 +41,6 @@ export class EditProfileComponent implements OnInit {
         this.employeeData.department,
         [
           Validators.required,
-          Validators.minLength(3),
           Validators.maxLength(25),
         ],
       ],
@@ -54,7 +53,8 @@ export class EditProfileComponent implements OnInit {
       next: () => {
         this.getEmployeeData.emit();
         this.toastService.showSuccess('Profile updated successfully');
-      },error:(error)=>{
+      },
+      error: (error) => {
         this.toastService.showError(error.error.message);
       },
     });

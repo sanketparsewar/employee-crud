@@ -66,8 +66,8 @@
             <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
                 class="text-danger me-1 fs-6">
                 <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
-                <small *ngIf="registerForm.get('password')?.errors?.['pattern']">Weak Password</small>
-                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters. </small>
+                <small *ngIf="registerForm.get('password')?.errors?.['pattern']">Weak Password. </small>
+                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Max 16 Characters. </small>
             </div>
         </div>
 

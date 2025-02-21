@@ -39,9 +39,7 @@
                                 required.</small>
                             <small *ngIf="addEmployeeForm.get('department')?.errors?.['maxlength']">Maximum 25
                                 Characters.</small>
-
                         </div>
-
 
                     </div>
                     <div class="col-md-6">
@@ -61,7 +59,7 @@
                         <div *ngIf="addEmployeeForm.get('password')?.invalid && (addEmployeeForm.get('password')?.dirty || addEmployeeForm.get('password')?.touched)"
                             class="text-danger">
                             <small *ngIf="addEmployeeForm.get('password')?.errors?.['required']">Required.</small>
-                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['pattern']">Weak Password</small>
+                            <small *ngIf="addEmployeeForm.get('password')?.errors?.['pattern']">Weak Password. </small>
                             <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16 Characters.
                             </small>
 

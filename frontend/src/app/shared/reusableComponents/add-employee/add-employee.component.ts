@@ -25,10 +25,10 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit() {
     this.addEmployeeForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
-      department: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(25)]],
+      department: ['', [Validators.required,Validators.maxLength(25)]],
       role: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.maxLength(16),Validators.maxLength(16),Validators.pattern('^(?=.*[A-Z])(?=.*\\d).{6,}$')]],
+      password: ['', [Validators.required, Validators.maxLength(16),Validators.pattern('^(?=.*[A-Z])(?=.*\\d).{6,}$')]],
     });
   }
 
