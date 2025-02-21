@@ -1,0 +1,8 @@
+@media screen and (max-width: 768px) {
+    table {
+        font-size: 14px; /* Reduce text size */
+    }
+    th, td {
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+}
