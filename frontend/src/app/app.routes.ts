@@ -15,10 +15,10 @@ export const routes: Routes = [
 
   {
     path: 'auth',
-    canActivate: [authGuard],
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent, canActivate: [authGuard] },
+      {path: 'register',component: RegisterComponent,canActivate: [authGuard]},
     ],
   },
 
