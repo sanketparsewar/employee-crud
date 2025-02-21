@@ -9,13 +9,13 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item dropdown">
-                    <a class="border rounded-3 nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                    <a class="text-success nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        {{employeeData?.name}}
+                        Welcome: <span class="text-white" >{{loggedEmployeeData?.name}}</span>
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit
+                        <li><a class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit
                                 profile</a></li>
                     </ul>
                 </li>
@@ -35,12 +35,18 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-3 mb-1">
+            <div class="text-center border rounded-3 p-2 m-1  "  >
+                <h6 class="m-0" >{{loggedEmployeeData?.name}}</h6>
+                <p>{{loggedEmployeeData?.email}}</p>
+                <p class="m-0" >Role: {{loggedEmployeeData?.role}}</p>
+                <p class="m-0" >Department: {{loggedEmployeeData?.department}}</p>
+            </div>
             <div class="d-flex justify-content-evenly">
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#filterOptions" aria-expanded="false" aria-controls="filterOptions">
                     <i class="fa-solid fa-filter"></i> Filter
                 </button>
-                <button *ngIf="employeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary"
+                <button *ngIf="loggedEmployeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary"
                     data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-circle-plus"></i>
                     Employee</button>
             </div>
@@ -113,7 +119,7 @@
                             <th scope="col">Department</th>
                             <th scope="col">Role</th>
                             <th scope="col">Email</th>
-                            <th scope="col" *ngIf="employeeData?.role==='Admin'">Action</th>
+                            <th scope="col" *ngIf="loggedEmployeeData?.role==='Admin'">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,7 +129,7 @@
                             <td>{{employee.department}}</td>
                             <td>{{employee.role}}</td>
                             <td>{{employee.email}}</td>
-                            <td *ngIf="employeeData?.role==='Admin'">
+                            <td *ngIf="loggedEmployeeData?.role==='Admin'">
                                 <div class="d-flex justify-content-evenly">
                                     <button class="btn text-danger" (click)="deleteEmployee(employee)">
                                         <i class="fa-solid fa-trash-can"></i>
@@ -155,6 +161,6 @@
 
 <app-add-employee (getEmployeeList)="getEmployeeList()"></app-add-employee>
 
-<ng-container *ngIf="employeeData">
-    <app-edit-profile [employeeData]="employeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
+<ng-container *ngIf="loggedEmployeeData">
+    <app-edit-profile [employeeData]="loggedEmployeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
 </ng-container>

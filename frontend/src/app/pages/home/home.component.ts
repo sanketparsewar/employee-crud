@@ -22,7 +22,7 @@ import { PaginationComponent } from '../../shared/reusableComponents/pagination/
 })
 export class HomeComponent implements OnInit {
   router = inject(Router);
-  employeeData: any;
+  loggedEmployeeData: any;
   employeeList: any[] = [];
   queryParameters: any = {
     search: '',
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
   getLoggedEmployeeData() {
     this.employeeService.getLoggedEmployee().subscribe({
       next: (res) => {
-        this.employeeData = res;
+        this.loggedEmployeeData = res;
         this.getEmployeeList();
       },
       error: (error) => {
@@ -101,6 +101,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  
   logout() {
     if (confirm(`Are you sure you want to Logout?`)) {
       this.authService.logout().subscribe({
