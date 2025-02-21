@@ -30,10 +30,10 @@ exports.getAllEmployees = async (req, res) => {
     //   return res.status(403).json({ message: "Unauthorized access" });
     // }
 
-    let { search, role, limit, page,sortBy, sortOrder } = req.query;
+    let { search, role, limit, page, sortBy, sortOrder } = req.query;
     limit = parseInt(limit);
     page = parseInt(page);
-    const skip = (page - 1) * limit;
+    let skip = (page - 1) * limit;
 
     let filter = { _id: { $ne: req.employee._id } }; // Exclude logged-in user
     // Search filter (by name or department)
@@ -50,16 +50,25 @@ exports.getAllEmployees = async (req, res) => {
     }
 
     let sorting = {};
-    if(sortBy){
-      sorting[sortBy] = sortOrder === "asc"? 1 : -1; //1 for ascending and -1 for descending
+    if (sortBy) {
+      sorting[sortBy] = sortOrder === "asc" ? 1 : -1; //1 for ascending and -1 for descending
     }
 
     // Fetch employees with filtering, pagination, and field exclusion
-    const employees = await Employee.find(filter)
+    let employees = await Employee.find(filter)
       .select("-password -refreshToken -__v")
       .sort(sorting)
       .limit(limit)
       .skip(skip);
+    if (employees.length === 0 && page > 1) {
+      page=page-1
+      skip = (page - 1) * limit;  
+      employees = await Employee.find(filter)
+        .select("-password -refreshToken -__v")
+        .sort(sorting)
+        .limit(limit)
+        .skip(skip);
+    }
 
     const totalEmployees = await Employee.countDocuments(filter); // Get total count for pagination
 
