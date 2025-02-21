@@ -35,11 +35,11 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-3 mb-1">
-            <div class="text-center border rounded-3 p-1 m-1  "  >
+            <div class="text-center border  rounded-3 p-1 mb-3  " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"  >
+                <div  class="text-center fs-2" ><i class="fa-solid fa-user"></i></div>
                 <h5 class="m-0" >{{loggedEmployeeData?.name}}</h5>
-                <p class="text-muted">{{loggedEmployeeData?.email}}</p>
-                <p class="m-0" ><strong>Role:</strong> {{loggedEmployeeData?.role}}</p>
-                <p class="m-0" ><strong>Department:</strong> {{loggedEmployeeData?.department}}</p>
+                <p class=" m-0 text-muted">{{loggedEmployeeData?.email}}</p>
+                <p class="text-muted" >{{loggedEmployeeData?.department}}</p>
             </div>
             <div class="d-flex justify-content-evenly">
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
@@ -98,11 +98,11 @@
                     </div>
                     <div class="col-6">
                         <label for="inputLimit6" class="col-form-label">Limit</label>
-                        <select name="limit" (change)="onChangeFilter($event)" id="inputLimit6" class="form-select">
+                        <select name="limit" (change)="onChangeLimit($event)" id="inputLimit6" class="form-select">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
-                            <option value="">All</option>
+                            <option [value]="totalEmployees">All</option>
                         </select>
                     </div>
 
@@ -141,8 +141,8 @@
                 </table>
             </div>
         
+            <p *ngIf="employeeList.length === 0" class="text-center">No employees found.</p>
             <div>
-                <p *ngIf="employeeList.length === 0" class="text-center">No employees found.</p>
         
                 <ng-container *ngIf="employeeList.length !== 0">
                     <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"

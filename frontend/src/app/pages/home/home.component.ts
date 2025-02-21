@@ -27,12 +27,13 @@ export class HomeComponent implements OnInit {
   queryParameters: any = {
     search: '',
     role: '',
-    limit: 10,
+    limit: 2,
     page: 1,
-    sortBy:'name',
-    sortOrder:'asc',
+    sortBy: 'name',
+    sortOrder: 'asc',
   };
   totalPages: number = 1;
+  totalEmployees: number = 0;
   totalPagesArray: number[] = [];
   currentPage: number = 1;
 
@@ -48,6 +49,11 @@ export class HomeComponent implements OnInit {
 
   onChangeFilter(event: any) {
     this.queryParameters[event.target.name] = event.target.value;
+    this.getEmployeeList();
+  }
+  onChangeLimit(event: any) {
+    this.queryParameters[event.target.name] = event.target.value;
+    this.queryParameters.page = 1;
     this.getEmployeeList();
   }
 
@@ -69,6 +75,8 @@ export class HomeComponent implements OnInit {
     this.employeeService.getAllEmployees(this.queryParameters).subscribe({
       next: (res: any) => {
         this.employeeList = res.employees;
+        this.totalEmployees = res.totalEmployees;
+        this.currentPage = res.currentPage;
         this.totalPages = res.totalPages;
         this.getTotalPagesArray();
       },
@@ -101,7 +109,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  
   logout() {
     if (confirm(`Are you sure you want to Logout?`)) {
       this.authService.logout().subscribe({
