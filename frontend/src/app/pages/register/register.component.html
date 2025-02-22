@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="container vh-100 w-100 d-flex justify-content-center align-items-center">
 
     <form class="form g-3 border rounded-4 gap-2" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
@@ -77,5 +77,124 @@
             Already have an account? <span><a [routerLink]="['/auth/login']">login here</a></span>
         </div>
 
+    </form>
+</div> -->
+
+
+<div class="flex h-screen w-full items-center justify-center bg-gray-100">
+    <form 
+        class="flex flex-col gap-4 bg-white p-8 shadow-lg rounded-2xl w-96" 
+        [formGroup]="registerForm" 
+        (ngSubmit)="onSubmit(registerForm)"
+    >
+        <h3 class="text-center text-xl font-semibold text-gray-700">Create Account</h3>
+
+        <!-- Name Field -->
+        <div class="flex flex-col">
+            <label class="text-gray-700 font-medium">Name</label>
+            <div class="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-gray-600 transition">
+                <i class="fa-solid fa-user-tie text-gray-500"></i>
+                <input 
+                    type="text" 
+                    formControlName="name" 
+                    class="ml-2 w-full border-none outline-none bg-transparent" 
+                    placeholder="Enter Your Name" 
+                />
+            </div>
+            <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.dirty || registerForm.get('name')?.touched)" class="text-red-500 text-sm mt-1">
+                <small *ngIf="registerForm.get('name')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('name')?.errors?.['minlength']">Minimum 3 Characters.</small>
+                <small *ngIf="registerForm.get('name')?.errors?.['maxlength']">Maximum 25 Characters.</small>
+            </div>
+        </div>
+
+        <!-- Department Field -->
+        <div class="flex flex-col">
+            <label class="text-gray-700 font-medium">Department</label>
+            <div class="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-gray-600 transition">
+                <i class="fa-solid fa-id-card text-gray-500"></i>
+                <input 
+                    type="text" 
+                    formControlName="department" 
+                    class="ml-2 w-full border-none outline-none bg-transparent" 
+                    placeholder="Enter Your Department" 
+                />
+            </div>
+            <div *ngIf="registerForm.get('department')?.invalid && (registerForm.get('department')?.dirty || registerForm.get('department')?.touched)" class="text-red-500 text-sm mt-1">
+                <small *ngIf="registerForm.get('department')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('department')?.errors?.['maxlength']">Maximum 25 Characters.</small>
+            </div>
+        </div>
+
+        <!-- Role Field -->
+        <div class="flex flex-col">
+            <label class="text-gray-700 font-medium">Role</label>
+            <div class="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-gray-600 transition">
+                <i class="fa-solid fa-id-badge text-gray-500"></i>
+                <select 
+                    class="ml-2 w-full border-none outline-none bg-transparent" 
+                    formControlName="role"
+                >
+                    <option value="" selected>Choose...</option>
+                    <option value="Employee">Employee</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div *ngIf="registerForm.get('role')?.invalid && (registerForm.get('role')?.dirty || registerForm.get('role')?.touched)" class="text-red-500 text-sm mt-1">
+                <small *ngIf="registerForm.get('role')?.errors?.['required']">Required.</small>
+            </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="flex flex-col">
+            <label class="text-gray-700 font-medium">Email</label>
+            <div class="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-gray-600 transition">
+                <i class="fa-solid fa-at text-gray-500"></i>
+                <input 
+                    type="text" 
+                    formControlName="email" 
+                    class="ml-2 w-full border-none outline-none bg-transparent" 
+                    placeholder="Enter Your Email" 
+                />
+            </div>
+            <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)" class="text-red-500 text-sm mt-1">
+                <small *ngIf="registerForm.get('email')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('email')?.errors?.['email']">Invalid Email.</small>
+            </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="flex flex-col">
+            <label class="text-gray-700 font-medium">Password</label>
+            <div class="flex items-center border border-gray-300 rounded-lg p-2 focus-within:border-gray-600 transition">
+                <i class="fa-solid fa-lock text-gray-500"></i>
+                <input 
+                    type="password" 
+                    formControlName="password" 
+                    class="ml-2 w-full border-none outline-none bg-transparent" 
+                    placeholder="Enter Your Password" 
+                />
+            </div>
+            <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)" class="text-red-500 text-sm mt-1">
+                <small *ngIf="registerForm.get('password')?.errors?.['required']">Required.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['pattern']">Weak Password.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['maxlength']">Max 16 Characters.</small>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+            type="submit" 
+            [disabled]="registerForm.invalid" 
+            class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
+        >
+            Sign up
+        </button>
+
+        <!-- Login Link -->
+        <div class="text-center text-gray-600">
+            Already have an account? 
+            <a [routerLink]="['/auth/login']" class="text-blue-500 hover:underline">Login here</a>
+        </div>
     </form>
 </div>

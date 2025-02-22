@@ -1,3 +1,4 @@
+import { ConfirmService } from './../../core/services/confirm/confirm.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { AddEmployeeComponent } from '../../shared/reusableComponents/add-employ
 import { ToastService } from '../../core/services/toast/toast.service';
 import { EditProfileComponent } from '../../shared/reusableComponents/edit-profile/edit-profile.component';
 import { PaginationComponent } from '../../shared/reusableComponents/pagination/pagination.component';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
   imports: [
@@ -37,14 +39,35 @@ export class HomeComponent implements OnInit {
   totalPagesArray: number[] = [];
   currentPage: number = 1;
 
+  isMenuOpen: boolean = false;
+  isDropdownOpen = false;
+
+
   constructor(
     private authService: AuthService,
     private employeeService: EmployeeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private confirmService: ConfirmService
   ) {}
 
+  
   ngOnInit() {
     this.getLoggedEmployeeData();
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  openAddEmployeeModal() {
+    console.log('Open Add Employee Modal');
+  }
+
+  openEditProfileModal() {
+    console.log('Open Edit Profile Modal');
   }
 
   onChangeFilter(event: any) {
@@ -52,6 +75,7 @@ export class HomeComponent implements OnInit {
     this.queryParameters.page = 1;
     this.getEmployeeList();
   }
+
   onChangeLimit(event: any) {
     this.queryParameters[event.target.name] = event.target.value;
     this.queryParameters.page = 1;
@@ -96,32 +120,47 @@ export class HomeComponent implements OnInit {
   }
 
   deleteEmployee(employee: any) {
-    if (confirm(`Are you sure you want to delete ${employee.name}?`)) {
-      this.employeeService.deleteEmployee(employee._id).subscribe({
-        next: () => {
-          this.toastService.showSuccess('Employee deleted successfully');
-          this.getEmployeeList();
-        },
-        error: (error) => {
-          if (error.status !== 401)
-            this.toastService.showError(error.error?.message);
-        },
+    this.confirmService
+      .showConfirm('Are you sure you want to Delete?')
+      .then((isConfirmed) => {
+        if (isConfirmed) {
+          this.employeeService.deleteEmployee(employee._id).subscribe({
+            next: () => {
+              Swal.fire({
+                title: 'Deleted!',
+                text: 'Your file has been deleted.',
+                icon: 'success',
+              });
+              this.getEmployeeList();
+            },
+            error: (error) => {
+              if (error.status !== 401)
+                this.toastService.showError(error.error?.message);
+            },
+          });
+        }
       });
-    }
   }
 
   logout() {
-    if (confirm(`Are you sure you want to Logout?`)) {
-      this.authService.logout().subscribe({
-        next: () => {
-          this.toastService.showSuccess('Logged out successfully');
-          this.router.navigate(['auth', 'login']);
-        },
-        error: (error) => {
-          if (error.status !== 401)
-            this.toastService.showError(error.error?.message);
-        },
+    this.confirmService
+      .showConfirm('Are you sure you want to Logout?')
+      .then((isConfirmed) => {
+        if (isConfirmed) {
+          this.authService.logout().subscribe({
+            next: () => {
+              Swal.fire({
+                title: 'Logged out!',
+                icon: 'success',
+              });
+              this.router.navigate(['auth', 'login']);
+            },
+            error: (error) => {
+              if (error.status !== 401)
+                this.toastService.showError(error.error?.message);
+            },
+          });
+        }
       });
-    }
   }
 }

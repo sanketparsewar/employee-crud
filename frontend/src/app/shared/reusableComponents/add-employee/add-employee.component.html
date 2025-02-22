@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- 
 <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,4 +75,85 @@
 
         </div>
     </div>
+</div> -->
+
+
+
+
+<!-- Modal -->
+<div id="addEmployeeModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-96">
+        <div class="flex justify-between items-center border-b px-6 py-4">
+            <h1 class="text-lg font-semibold">Add Employee</h1>
+            <button class="text-gray-500 hover:text-gray-700" onclick="closeAddEmployeeModal()">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <div class="p-6">
+            <form class="flex flex-col gap-4" [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit(addEmployeeForm)">
+                
+                <!-- Name Field -->
+                <div class="flex flex-col">
+                    <label class="text-gray-700 font-medium">Name</label>
+                    <input type="text" formControlName="name" class="border border-gray-300 rounded-lg p-2 focus:border-gray-600 outline-none" placeholder="Enter name" />
+                    <div *ngIf="addEmployeeForm.get('name')?.invalid && (addEmployeeForm.get('name')?.dirty || addEmployeeForm.get('name')?.touched)" class="text-red-500 text-sm mt-1">
+                        <small *ngIf="addEmployeeForm.get('name')?.errors?.['required']">Name is required.</small>
+                        <small *ngIf="addEmployeeForm.get('name')?.errors?.['minlength']">Minimum 3 characters.</small>
+                        <small *ngIf="addEmployeeForm.get('name')?.errors?.['maxlength']">Maximum 25 characters.</small>
+                    </div>
+                </div>
+
+                <!-- Role Field -->
+                <div class="flex flex-col">
+                    <label class="text-gray-700 font-medium">Role</label>
+                    <select formControlName="role" class="border border-gray-300 rounded-lg p-2 focus:border-gray-600 outline-none">
+                        <option selected value="">Choose...</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+
+                <!-- Department Field -->
+                <div class="flex flex-col">
+                    <label class="text-gray-700 font-medium">Department</label>
+                    <input type="text" formControlName="department" class="border border-gray-300 rounded-lg p-2 focus:border-gray-600 outline-none" placeholder="Enter department" />
+                    <div *ngIf="addEmployeeForm.get('department')?.invalid && (addEmployeeForm.get('department')?.dirty || addEmployeeForm.get('department')?.touched)" class="text-red-500 text-sm mt-1">
+                        <small *ngIf="addEmployeeForm.get('department')?.errors?.['required']">Department is required.</small>
+                        <small *ngIf="addEmployeeForm.get('department')?.errors?.['maxlength']">Maximum 25 characters.</small>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="flex flex-col">
+                    <label class="text-gray-700 font-medium">Email</label>
+                    <input type="email" formControlName="email" class="border border-gray-300 rounded-lg p-2 focus:border-gray-600 outline-none" placeholder="Enter email" />
+                    <div *ngIf="addEmployeeForm.get('email')?.invalid && (addEmployeeForm.get('email')?.dirty || addEmployeeForm.get('email')?.touched)" class="text-red-500 text-sm mt-1">
+                        <small *ngIf="addEmployeeForm.get('email')?.errors?.['required']">Required.</small>
+                        <small *ngIf="addEmployeeForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="flex flex-col">
+                    <label class="text-gray-700 font-medium">Password</label>
+                    <input type="password" formControlName="password" class="border border-gray-300 rounded-lg p-2 focus:border-gray-600 outline-none" placeholder="Enter password" />
+                    <div *ngIf="addEmployeeForm.get('password')?.invalid && (addEmployeeForm.get('password')?.dirty || addEmployeeForm.get('password')?.touched)" class="text-red-500 text-sm mt-1">
+                        <small *ngIf="addEmployeeForm.get('password')?.errors?.['required']">Required.</small>
+                        <small *ngIf="addEmployeeForm.get('password')?.errors?.['pattern']">Weak Password.</small>
+                        <small *ngIf="addEmployeeForm.get('password')?.errors?.['maxlength']">Maximum 16 characters.</small>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3">
+                    <button type="button" class="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition" onclick="closeAddEmployeeModal()">Cancel</button>
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed" [disabled]="addEmployeeForm.invalid">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+

@@ -1,38 +1,50 @@
-<nav >
-    <ul class="pagination justify-content-center">
+<nav class="mt-2" >
+    <ul class="flex justify-center space-x-2">
         <!-- Previous Button -->
-        <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" (click)="changePage(currentPage - 1)"><i class="fa-solid fa-backward"></i></a>
+        <li [class.opacity-50]="currentPage === 1">
+            <button class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+                <i class="fa-solid fa-backward"></i>
+            </button>
         </li>
 
         <!-- First Page -->
-        <li *ngIf="currentPage > 2" class="page-item">
-            <a class="page-link" (click)="changePage(1)">1</a>
+        <li *ngIf="currentPage > 2">
+            <button class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                (click)="changePage(1)">1</button>
         </li>
 
-        <li *ngIf="currentPage > 3" class="page-item disabled">
-            <span class="page-link">...</span>
+        <li *ngIf="currentPage > 3">
+            <span class="px-3 py-2">...</span>
         </li>
 
         <!-- Page Numbers -->
-        <li *ngFor="let page of getVisiblePages()" class="page-item"
-            [class.active]="currentPage === page">
-            <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        <li *ngFor="let page of getVisiblePages()">
+            <button class="px-3 py-2 rounded hover:bg-blue-500 hover:text-white"
+                [class.bg-blue-500]="currentPage === page"
+                [class.text-white]="currentPage === page"
+                [class.bg-gray-200]="currentPage !== page"
+                (click)="changePage(page)">
+                {{ page }}
+            </button>
         </li>
 
-        <li *ngIf="currentPage < totalPages - 2" class="page-item disabled">
-            <span class="page-link">...</span>
+        <li *ngIf="currentPage < totalPages - 2">
+            <span class="px-3 py-2">...</span>
         </li>
 
         <!-- Last Page -->
-        <li *ngIf="currentPage < totalPages - 1" class="page-item">
-            <a class="page-link" (click)="changePage(totalPages)">{{ totalPages }}</a>
+        <li *ngIf="currentPage < totalPages - 1">
+            <button class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                (click)="changePage(totalPages)">{{ totalPages }}</button>
         </li>
 
         <!-- Next Button -->
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link" (click)="changePage(currentPage + 1)"><i class="fa-solid fa-forward"></i></a>
+        <li [class.opacity-50]="currentPage === totalPages">
+            <button class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+                <i class="fa-solid fa-forward"></i>
+            </button>
         </li>
-
     </ul>
 </nav>

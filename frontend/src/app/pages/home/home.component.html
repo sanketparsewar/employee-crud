@@ -1,166 +1,145 @@
-<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand">EMP-CRUD</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                <li class="nav-item dropdown">
-                    <a class="text-success nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Welcome: <span class="text-white" >{{loggedEmployeeData?.name}}</span>
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li><a class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit
-                                profile</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="d-flex align-items-center ">
+<nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex shrink-0 items-center">
+                    <a class="text-white text-xl font-bold">EMP-CRUD</a>
+                </div>
             </div>
-            <div class="d-flex align-items-center">
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-                <button class="btn btn-danger" (click)="logout()">
-                    Logout <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
+                <!-- Profile dropdown -->
+                <div class="relative ml-3">
+                    <div>
+                        <button (click)="toggleDropdown()"
+                            class="relative flex rounded-full bg-gray-800 text-sm text-white">{{
+                            loggedEmployeeData?.name }}
+                        </button>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div *ngIf="isDropdownOpen"
+                        class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5"
+                        (clickOutside)="closeDropdown()">
+                        <a class="block px-4 py-2 text-sm text-gray-700">Edit Profile</a>
+                        <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700">Settings</a> -->
+                        <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700">Logout
+                            <i class="fas fa-sign-out-alt"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container mt-3">
-    <div class="row">
-        <div class="col-md-3 mb-1">
-            <div class="text-center border  rounded-3 p-1 mb-3  " style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;"  >
-                <div  class="text-center fs-2" ><i class="fa-solid fa-user"></i></div>
-                <h5 class="m-0" >{{loggedEmployeeData?.name}}</h5>
-                <p class=" m-0 text-muted">{{loggedEmployeeData?.email}}</p>
-                <p class="text-muted" >{{loggedEmployeeData?.department}}</p>
-            </div>
-            <div class="d-flex justify-content-evenly">
-                <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#filterOptions" aria-expanded="false" aria-controls="filterOptions">
-                    <i class="fa-solid fa-filter"></i> Filter
-                </button>
-                <button *ngIf="loggedEmployeeData?.role==='Admin'" class="btn btn-sm btn-outline-primary"
-                    data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-circle-plus"></i>
-                    Employee</button>
-            </div>
-            <div class="collapse" id="filterOptions">
-                <div class="row  align-items-center">
-                    <div class="col-12">
-                        <label for="inputName6" class="col-form-label">Search </label>
-                        <input class="form-control me-2" name="search" (input)="onChangeFilter($event)" type="search"
-                            placeholder="Search name or department" aria-label="Search">
 
-                    </div>
-                    <div class="col-8">
-                        <label for="inputSortBy" class="col-form-label">SortBy</label>
-                        <select name="sortBy" (change)="onChangeFilter($event)" id="inputSortBy" class="form-select">
-                            <option value="name">Name</option>
-                            <option value="department">Department</option>
-                        </select>
-                    </div>
-                    <div class="col-4 d-flex flex-column align-items-center justify-content-center">
-                        <div class="pb-1">
-                          <input 
-                            type="radio" 
-                            [checked]="queryParameters.sortOrder === 'asc'"  
-                            name="sortOrder" 
-                            (change)="onChangeFilter($event)" 
-                            value="asc"  
-                            id="asc">
-                          <label for="asc">A - Z</label>
-                        </div>
-                        <div class="pt-1" >
-                          <input 
-                            type="radio" 
-                            [checked]="queryParameters.sortOrder === 'desc'"  
-                            name="sortOrder" 
-                            (change)="onChangeFilter($event)" 
-                            value="desc" 
-                            id="desc">
-                          <label for="desc">Z - A</label>
-                        </div>
-                      </div>
-                      
-                    <div class="col-6">
-                        <label for="inputRole6" class="col-form-label">Role</label>
-                        <select name="role" (change)="onChangeFilter($event)" id="inputRole6" class="form-select">
-                            <option value="">All roles</option>
-                            <option value="Employee">Employee</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label for="inputLimit6" class="col-form-label">Limit</label>
-                        <select name="limit" (change)="onChangeLimit($event)" id="inputLimit6" class="form-select">
-                            <option [value]="10">10</option>
-                            <option [value]="20">20</option>
-                            <option [value]="50">50</option> 
-                            <option [value]="totalEmployees">All</option>
-                        </select>
-                    </div>
 
-                </div>
-            </div>
+
+
+<div class="container mx-auto mt-6 flex flex-col md:flex-row gap-6">
+    <div class="w-full md:w-1/4">
+        <div class="text-center border rounded-lg p-4 shadow-md">
+            <div class="text-2xl"><i class="fa-solid fa-user"></i></div>
+            <h5 class="font-bold">{{ loggedEmployeeData?.name }}</h5>
+            <p class="text-gray-500">{{ loggedEmployeeData?.email }}</p>
+            <p class="text-gray-500">{{ loggedEmployeeData?.department }}</p>
         </div>
-        <div class="col-md-9">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Department</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Email</th>
-                            <th scope="col" *ngIf="loggedEmployeeData?.role==='Admin'">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let employee of employeeList; let i = index">
-                            <th>{{i + 1}}</th>
-                            <td>{{employee.name}}</td>
-                            <td>{{employee.department}}</td>
-                            <td>{{employee.role}}</td>
-                            <td>{{employee.email}}</td>
-                            <td *ngIf="loggedEmployeeData?.role==='Admin'">
-                                <div class="d-flex justify-content-evenly">
-                                    <button class="btn text-danger" (click)="deleteEmployee(employee)">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        
-            <p *ngIf="employeeList.length === 0" class="text-center">No employees found.</p>
-            <div>
-        
-                <ng-container *ngIf="employeeList.length !== 0">
-                    <app-pagination [currentPage]="currentPage" [totalPages]="totalPages"
-                        [totalPagesArray]="totalPagesArray" [queryParameters]="queryParameters"
-                        (getEmployeeList)="getEmployeeList()">
-                    </app-pagination>
-                </ng-container>
-            </div>
+
+        <div class="flex justify-around mt-4">
+            <button *ngIf="loggedEmployeeData?.role==='Admin'" class="px-4 py-2 bg-blue-500 text-white rounded"
+                (click)="openAddEmployeeModal()">
+                <i class="fa-solid fa-circle-plus"></i> Employee
+            </button>
         </div>
-        
+
+        <div id="filterOptions" class="mt-4">
+            <label class="block text-gray-700">Search</label>
+            <input class="w-full p-2 border rounded" name="search" type="search" placeholder="Search name or department"
+                (input)="onChangeFilter($event)">
+
+
+            <label class="block text-gray-700 mt-2">Sort By</label>
+            <select class="w-full p-2 border rounded" name="sortBy" (change)="onChangeFilter($event)">
+                <option value="name">Name</option>
+                <option value="department">Department</option>
+            </select>
+
+
+            <div class="mt-2 flex justify-between">
+                <label class="flex items-center">
+                    <input type="radio" name="sortOrder" [checked]="queryParameters.sortOrder === 'asc'"
+                        (change)="onChangeFilter($event)" value="asc" class="mr-2">
+                    A - Z
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="sortOrder" [checked]="queryParameters.sortOrder === 'desc'"
+                        (change)="onChangeFilter($event)" value="desc" class="mr-2">
+                    Z - A
+                </label>
+            </div>
+
+
+            <label class="block text-gray-700 mt-2">Role</label>
+            <select class="w-full p-2 border rounded" name="role" (change)="onChangeFilter($event)">
+                <option value="">All roles</option>
+                <option value="Employee">Employee</option>
+                <option value="Admin">Admin</option>
+            </select>
+
+            <label class="block text-gray-700 mt-2">Limit</label>
+            <select class="w-full p-2 border rounded" name="limit" (change)="onChangeLimit($event)">
+                <option [value]="10">10</option>
+                <option [value]="20">20</option>
+                <option [value]="50">50</option>
+                <option [value]="">All</option>
+            </select>
+        </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="w-full md:w-3/4">
+        <div class="overflow-x-auto">
+            <table class="w-full border border-gray-300">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="p-2">#</th>
+                        <th class="p-2">Name</th>
+                        <th class="p-2">Department</th>
+                        <th class="p-2">Role</th>
+                        <th class="p-2">Email</th>
+                        <th *ngIf="loggedEmployeeData?.role==='Admin'" class="p-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employeeList; let i = index" class="border-b">
+                        <td class="p-2">{{i + 1}}</td>
+                        <td class="p-2">{{employee.name}}</td>
+                        <td class="p-2">{{employee.department}}</td>
+                        <td class="p-2">{{employee.role}}</td>
+                        <td class="p-2">{{employee.email}}</td>
+                        <td *ngIf="loggedEmployeeData?.role==='Admin'" class="p-2 text-center">
+                            <button class="text-red-600" (click)="deleteEmployee(employee)">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p *ngIf="employeeList.length === 0" class="text-center text-gray-500">No employees found.</p>
+        <ng-container *ngIf="employeeList.length !== 0">
+            <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" [totalPagesArray]="totalPagesArray"
+                [queryParameters]="queryParameters" (getEmployeeList)="getEmployeeList()"></app-pagination>
+        </ng-container>
+    </div>
 </div>
+
 
 
 
 <app-add-employee (getEmployeeList)="getEmployeeList()"></app-add-employee>
 
 <ng-container *ngIf="loggedEmployeeData">
-    <app-edit-profile [employeeData]="loggedEmployeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
+    <app-edit-profile [employeeData]="loggedEmployeeData"
+        (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
 </ng-container>

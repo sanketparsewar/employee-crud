@@ -28,24 +28,24 @@ export class EditProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.updateForm = this.fb.group({
-      name: [
-        this.employeeData.name,
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(25),
-        ],
-      ],
-      department: [
-        this.employeeData.department,
-        [
-          Validators.required,
-          Validators.maxLength(25),
-        ],
-      ],
-      email: [this.employeeData.email, [Validators.required, Validators.email]],
-    });
+    // this.updateForm = this.fb.group({
+    //   name: [
+    //     this.employeeData.name,
+    //     [
+    //       Validators.required,
+    //       Validators.minLength(3),
+    //       Validators.maxLength(25),
+    //     ],
+    //   ],
+    //   department: [
+    //     this.employeeData.department,
+    //     [
+    //       Validators.required,
+    //       Validators.maxLength(25),
+    //     ],
+    //   ],
+    //   email: [this.employeeData.email, [Validators.required, Validators.email]],
+    // });
   }
 
   onSubmit(updateForm: FormGroup) {
@@ -57,6 +57,6 @@ export class EditProfileComponent implements OnInit {
       error: (error) => {
         this.toastService.showError(error.error.message);
       },
-    });
+    }); 
   }
 }
