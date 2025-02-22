@@ -38,11 +38,10 @@ export class HomeComponent implements OnInit {
   totalEmployees: number = 0;
   totalPagesArray: number[] = [];
   currentPage: number = 1;
-
-  isMenuOpen: boolean = false;
-  isDropdownOpen = false;
-
-
+  isDropdownOpen: boolean = false;
+  isAddEmployeeModal: boolean = false;
+  isEditProfileModal: boolean = false;
+  isFilterOptions:boolean = false;
   constructor(
     private authService: AuthService,
     private employeeService: EmployeeService,
@@ -50,7 +49,6 @@ export class HomeComponent implements OnInit {
     private confirmService: ConfirmService
   ) {}
 
-  
   ngOnInit() {
     this.getLoggedEmployeeData();
   }
@@ -62,11 +60,26 @@ export class HomeComponent implements OnInit {
   closeDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
+
+  showFilter(){
+    this.isFilterOptions =!this.isFilterOptions;
+  }
+
   openAddEmployeeModal() {
+    this.isAddEmployeeModal = !this.isAddEmployeeModal;
+    console.log('Open Add Employee Modal');
+  }
+  closeAddEmployeeModal() {
+    this.isAddEmployeeModal = !this.isAddEmployeeModal;
     console.log('Open Add Employee Modal');
   }
 
   openEditProfileModal() {
+    this.isEditProfileModal = !this.isEditProfileModal;
+    console.log('Open Edit Profile Modal');
+  }
+  closeEditProfileModal() {
+    this.isEditProfileModal = !this.isEditProfileModal;
     console.log('Open Edit Profile Modal');
   }
 
