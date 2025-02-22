@@ -18,6 +18,8 @@ import {
 })
 export class EditProfileComponent implements OnInit {
   @Input() employeeData: any;
+  @Input() isEditProfileModal: boolean = false;
+  @Output() closeEditProfileModal = new EventEmitter();
   @Output() getEmployeeData = new EventEmitter();
   updateForm!: FormGroup;
 
@@ -28,35 +30,41 @@ export class EditProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.updateForm = this.fb.group({
-    //   name: [
-    //     this.employeeData.name,
-    //     [
-    //       Validators.required,
-    //       Validators.minLength(3),
-    //       Validators.maxLength(25),
-    //     ],
-    //   ],
-    //   department: [
-    //     this.employeeData.department,
-    //     [
-    //       Validators.required,
-    //       Validators.maxLength(25),
-    //     ],
-    //   ],
-    //   email: [this.employeeData.email, [Validators.required, Validators.email]],
-    // });
+    console.log(this.employeeData);
+    this.updateForm = this.fb.group({
+      name: [
+        this.employeeData?.name,
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      department: [
+        this.employeeData?.department,
+        [Validators.required, Validators.maxLength(25)],
+      ],
+      email: [
+        this.employeeData?.email,
+        [Validators.required, Validators.email],
+      ],
+    });
   }
 
   onSubmit(updateForm: FormGroup) {
     this.employeeService.updateEmployee(updateForm.value).subscribe({
       next: () => {
+        this.closeModal();
         this.getEmployeeData.emit();
         this.toastService.showSuccess('Profile updated successfully');
       },
       error: (error) => {
         this.toastService.showError(error.error.message);
       },
-    }); 
+    });
+  }
+
+  closeModal() {
+    this.closeEditProfileModal.emit();
   }
 }
