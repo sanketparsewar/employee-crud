@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
   isAddEmployeeModal: boolean = false;
   isEditProfileModal: boolean = false;
   isFilterOptions:boolean = false;
+  isDarkMode = false;
   constructor(
     private authService: AuthService,
     private employeeService: EmployeeService,
@@ -50,8 +51,24 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // this.checkSystemTheme()
     this.getLoggedEmployeeData();
   }
+
+  // checkSystemTheme() {
+  //   // Check user's system preference
+  //   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  //   this.isDarkMode = localStorage.getItem("theme") 
+  //     ? localStorage.getItem("theme") === "dark"
+  //     : prefersDark;
+  
+  //   document.documentElement.classList.toggle("dark", this.isDarkMode);
+  // }
+
+toggleDarkMode() {
+  this.isDarkMode = !this.isDarkMode;
+  document.documentElement.classList.toggle('dark', this.isDarkMode);
+}
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
