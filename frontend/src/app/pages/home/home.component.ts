@@ -51,19 +51,9 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.checkSystemTheme()
     this.getLoggedEmployeeData();
   }
 
-  // checkSystemTheme() {
-  //   // Check user's system preference
-  //   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  //   this.isDarkMode = localStorage.getItem("theme") 
-  //     ? localStorage.getItem("theme") === "dark"
-  //     : prefersDark;
-  
-  //   document.documentElement.classList.toggle("dark", this.isDarkMode);
-  // }
 
 toggleDarkMode() {
   this.isDarkMode = !this.isDarkMode;
