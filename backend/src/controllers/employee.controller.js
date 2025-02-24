@@ -86,12 +86,13 @@ exports.getAllEmployees = async (req, res) => {
 exports.updateEmployee = async (req, res) => {
   try {
     const id = req.employee._id;
-    const { name, email, department } = req.body;
+    const { name, email, department,image } = req.body;
     const updatedEmployee = await Employee.findByIdAndUpdate(
       id,
       {
         $set: {
           name: name || this.updateEmployee.name,
+          image: image || this.updateEmployee.image,
           email: email || this.updateEmployee.email,
           department: department || this.updateEmployee.department,
         },

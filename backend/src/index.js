@@ -7,6 +7,7 @@ const cors = require("cors");
 // import routes
 const authRouter = require("./routes/auth.routes");
 const employeeRouter = require("./routes/employee.routes");
+const cloudinaryRouter = require("./routes/cloudinary.routes");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -24,5 +25,6 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/employee", employeeRouter);
+app.use("/api/upload", cloudinaryRouter);
 
 module.exports = { app, PORT };

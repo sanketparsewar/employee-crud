@@ -6,6 +6,10 @@ const employeeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image:{
+      type: String,
+      default: "https://res.cloudinary.com/dehpzebdo/image/upload/v1737095729/ao37pjh73k0y7c4h1lzs.jpg"  // Default profile picture
+    },
     department: {
       type: String,
       required: true,
