@@ -20,7 +20,7 @@ import {
 export class AddEmployeeComponent implements OnInit {
   @Input() isAddEmployeeModal: boolean = false;
   @Output() getEmployeeList = new EventEmitter();
-  @Output() closeAddEmployeeModal = new EventEmitter();
+  @Output() showAddEmployeeModal = new EventEmitter();
   addEmployeeForm!: FormGroup;
 
   constructor(
@@ -77,6 +77,6 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   closeModal() {
-    this.closeAddEmployeeModal.emit();
+    this.showAddEmployeeModal.emit();
   }
 }

@@ -41,8 +41,9 @@ export class HomeComponent implements OnInit {
   isDropdownOpen: boolean = false;
   isAddEmployeeModal: boolean = false;
   isEditProfileModal: boolean = false;
-  isFilterOptions:boolean = false;
-  isDarkMode = false;
+  isFilterOptions: boolean = false;
+  savedTheme: string = '';
+  isDarkMode: boolean = false;
   constructor(
     private authService: AuthService,
     private employeeService: EmployeeService,
@@ -51,52 +52,36 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.savedTheme = localStorage.getItem('isDarkMode') || '';
+    this.isDarkMode = (this.savedTheme=="true") ? false : true;
+
+    this.toggleDarkMode();
     this.getLoggedEmployeeData();
   }
 
-
-toggleDarkMode() {
-  this.isDarkMode = !this.isDarkMode;
-  document.documentElement.classList.toggle('dark', this.isDarkMode);
-}
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('isDarkMode', this.isDarkMode.toString());
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
+  }
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  closeDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  showFilter() {
+    this.isFilterOptions = !this.isFilterOptions;
   }
 
-  showFilter(){
-    this.isFilterOptions =!this.isFilterOptions;
-  }
-
-  openAddEmployeeModal() {
+  showAddEmployeeModal() {
     this.isAddEmployeeModal = !this.isAddEmployeeModal;
-    console.log('Open Add Employee Modal');
-  }
-  closeAddEmployeeModal() {
-    this.isAddEmployeeModal = !this.isAddEmployeeModal;
-    console.log('Open Add Employee Modal');
   }
 
-  openEditProfileModal() {
+  showEditProfileModal() {
     this.isEditProfileModal = !this.isEditProfileModal;
-    console.log('Open Edit Profile Modal');
-  }
-  closeEditProfileModal() {
-    this.isEditProfileModal = !this.isEditProfileModal;
-    console.log('Open Edit Profile Modal');
   }
 
   onChangeFilter(event: any) {
-    this.queryParameters[event.target.name] = event.target.value;
-    this.queryParameters.page = 1;
-    this.getEmployeeList();
-  }
-
-  onChangeLimit(event: any) {
     this.queryParameters[event.target.name] = event.target.value;
     this.queryParameters.page = 1;
     this.getEmployeeList();

@@ -5,11 +5,19 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
-  
-  constructor() {
-  }
+export class AppComponent implements OnInit {
+  isDarkMode = false;
+  constructor() {}
 
+  ngOnInit() {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (event) => {
+        this.isDarkMode = event.matches;
+        localStorage.setItem('isDarkMode', event.matches.toString());
+        document.documentElement.classList.toggle('dark', this.isDarkMode);
+      });
+  }
 }
