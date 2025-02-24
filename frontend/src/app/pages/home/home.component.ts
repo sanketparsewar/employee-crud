@@ -91,6 +91,8 @@ export class HomeComponent implements OnInit {
     this.employeeService.getLoggedEmployee().subscribe({
       next: (res) => {
         this.loggedEmployeeData = res;
+        console.log(res);
+        
         this.getEmployeeList();
       },
       error: (error) => {

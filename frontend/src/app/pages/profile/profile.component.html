@@ -1,0 +1,55 @@
+<section style="font-family: Montserrat"
+    class="bg-white dark:bg-[#071e34] dark:text-neutral-200 flex font-medium items-center justify-center h-screen">
+    <section class="w-64 mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
+        <div class="flex items-center justify-between">
+            <span class="text-gray-400 text-sm">2d ago</span>
+            <span class="text-emerald-400 relative">
+                <i (click)="toggleDropdown()" class="cursor-pointer fa-solid fa-ellipsis"></i>
+                <div *ngIf="isDropdownOpen"
+                    class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-lg bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black/5 overflow-hidden">
+                    <a (click)="showEditPictureModal()"
+                        class="cursor-pointer block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
+                        <i class="fa-solid fa-image mr-2"></i>Edit picture
+                    </a>
+                    <a (click)="showEditProfileModal()"
+                        class="cursor-pointer block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-user-pen mr-2"></i>Edit Info
+                    </a>
+                    <a (click)="deleteEmployee()"
+                        class="cursor-pointer text-red-400 block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-trash-can  mr-2"></i>Delete Account
+                    </a>
+                </div>
+            </span>
+        </div>
+
+        <div class="mt-6 w-fit mx-auto">
+            <img [src]="loggedEmployeeData?.image" class="rounded-full w-28" alt="profile picture" srcset="" />
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-white font-bold text-2xl tracking-wide">
+                {{ loggedEmployeeData?.name }}
+            </h2>
+        </div>
+        <p class="text-emerald-400 font-semibold mt-2.5">
+            {{ loggedEmployeeData?.role }}
+        </p>
+
+        <div class="mt-3 text-white text-sm">
+            <span class="text-gray-400 font-semibold">Department:</span>
+            <span>{{ loggedEmployeeData?.department }}</span>
+        </div>
+    </section>
+</section>
+
+
+
+<app-edit-picture [isEditPictureModal]="isEditPictureModal" (showEditPictureModal)="showEditPictureModal()"></app-edit-picture>
+
+
+
+<ng-container *ngIf="loggedEmployeeData">
+    <app-edit-profile [isEditProfileModal]="isEditProfileModal" (showEditProfileModal)="showEditProfileModal()"
+        [employeeData]="loggedEmployeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
+</ng-container>

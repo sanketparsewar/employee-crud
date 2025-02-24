@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Environment } from '../../../environment/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -47,4 +48,14 @@ export class EmployeeService {
       withCredentials: true,
     });
   }
+
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.BASE_URL}/upload`, formData, {
+      withCredentials: true,
+    });
+  }
+
 }
