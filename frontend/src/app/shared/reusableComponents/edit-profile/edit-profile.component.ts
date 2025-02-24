@@ -19,7 +19,7 @@ import {
 export class EditProfileComponent implements OnInit {
   @Input() employeeData: any;
   @Input() isEditProfileModal: boolean = false;
-  @Output() closeEditProfileModal = new EventEmitter();
+  @Output() showEditProfileModal = new EventEmitter();
   @Output() getEmployeeData = new EventEmitter();
   updateForm!: FormGroup;
 
@@ -30,7 +30,6 @@ export class EditProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.employeeData);
     this.updateForm = this.fb.group({
       name: [
         this.employeeData?.name,
@@ -65,6 +64,6 @@ export class EditProfileComponent implements OnInit {
   }
 
   closeModal() {
-    this.closeEditProfileModal.emit();
+    this.showEditProfileModal.emit();
   }
 }
