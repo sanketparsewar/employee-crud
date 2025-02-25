@@ -26,16 +26,14 @@ exports.getEmployeeById = async (req, res) => {
 
 exports.getAllEmployees = async (req, res) => {
   try {
-    // if (req.employee.role !== "Admin") {
-    //   return res.status(403).json({ message: "Unauthorized access" });
-    // }
-
+    
     let { search, role, limit, page, sortBy, sortOrder } = req.query;
     limit = parseInt(limit);
     page = parseInt(page);
     let skip = (page - 1) * limit;
 
     let filter = { _id: { $ne: req.employee._id } }; // Exclude logged-in user
+
     // Search filter (by name or department)
     if (search) {
       filter.$or = [
@@ -91,10 +89,10 @@ exports.updateEmployee = async (req, res) => {
       id,
       {
         $set: {
-          name: name || this.updateEmployee.name,
-          image: image || this.updateEmployee.image,
-          email: email || this.updateEmployee.email,
-          department: department || this.updateEmployee.department,
+          name: name || req.employee.name,
+          image: image || req.employee.image,
+          email: email || req.employee.email,
+          department: department || req.employee.department,
         },
       },
       { new: true }

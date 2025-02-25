@@ -28,9 +28,6 @@ const generateAccessAndRefreshToken = async (employee) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password, department, role } = req.body;
-    if (!name || !email || !password || !department || !role) {
-      return res.status(400).json({ message: "All fields required." });
-    }
     const existingEmployee = await Employee.findOne({ email });
 
     if (existingEmployee) {

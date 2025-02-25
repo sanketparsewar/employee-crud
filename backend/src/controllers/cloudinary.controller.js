@@ -7,13 +7,9 @@ const uploadImage = async (req, res) => {
     });
     res.json({
       message: "File uploaded successfully",
-      file: {
-        url: result.secure_url,
-        public_id: result.public_id,
-      },
+      url: result.secure_url,
     });
   } catch (error) {
-    console.error("Error uploading to Cloudinary:", error);
     res.status(500).json({ message: "Error uploading file" });
   }
 };
