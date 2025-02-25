@@ -17,7 +17,6 @@ export class LayoutComponent implements OnInit {
   savedTheme: string = '';
   isDarkMode: boolean = false;
   loggedEmployeeData:any;
-  isEditProfileModal: boolean = false;
   isDropdownOpen: boolean = false;
   router=inject(Router)
     constructor(
@@ -46,18 +45,10 @@ export class LayoutComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  showEditProfileModal() {
-    this.isEditProfileModal = !this.isEditProfileModal;
-  } 
-
-
   getLoggedEmployeeData() {
     this.employeeService.getLoggedEmployee().subscribe({
       next: (res) => {
         this.loggedEmployeeData = res;
-        console.log(res);
-        
-        // this.getEmployeeList();
       },
       error: (error) => {
         if (error.status !== 401) {
