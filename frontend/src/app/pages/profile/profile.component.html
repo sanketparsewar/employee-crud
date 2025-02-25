@@ -1,21 +1,20 @@
 <section style="font-family: Montserrat"
-    class="bg-white dark:bg-[#071e34] dark:text-neutral-200 flex font-medium items-center justify-center h-screen">
-    <section class="w-64 mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
-        <div class="flex items-center justify-between">
-            <span class="text-gray-400 text-sm">2d ago</span>
+    class="bg-white dark:bg-black dark:text-neutral-200 flex font-medium items-center justify-center h-screen">
+    <section class="w-64 mx-auto dark:bg-gray-900 bg-black  rounded-2xl px-8 py-6 shadow-lg">
+        <div class="flex items-center justify-end">
             <span class="text-emerald-400 relative">
                 <i (click)="toggleDropdown()" class="cursor-pointer fa-solid fa-ellipsis"></i>
                 <div *ngIf="isDropdownOpen"
                     class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-lg bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black/5 overflow-hidden">
-                    <a (click)="showEditPictureModal()"
+                    <a (click)="showEditPictureModal(); toggleDropdown() " 
                         class="cursor-pointer block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition flex items-center">
                         <i class="fa-solid fa-image mr-2"></i>Edit picture
                     </a>
-                    <a (click)="showEditProfileModal()"
+                    <a (click)="showEditProfileModal(); toggleDropdown()"
                         class="cursor-pointer block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                         <i class="fa-solid fa-user-pen mr-2"></i>Edit Info
                     </a>
-                    <a (click)="deleteEmployee()"
+                    <a (click)="deleteEmployee(); toggleDropdown()" 
                         class="cursor-pointer text-red-400 block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                         <i class="fa-solid fa-trash-can  mr-2"></i>Delete Account
                     </a>
@@ -45,7 +44,8 @@
 
 
 
-<app-edit-picture [isEditPictureModal]="isEditPictureModal" (showEditPictureModal)="showEditPictureModal()"></app-edit-picture>
+
+<app-edit-picture [isEditPictureModal]="isEditPictureModal" (showEditPictureModal)="showEditPictureModal()" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-picture>
 
 
 

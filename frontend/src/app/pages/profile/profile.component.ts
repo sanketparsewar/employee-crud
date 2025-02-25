@@ -48,7 +48,6 @@ export class ProfileComponent {
     this.employeeService.getLoggedEmployee().subscribe({
       next: (res) => {
         this.loggedEmployeeData = res;
-        console.log(res);
       },
       error: (error) => {
         if (error.status !== 401) {
