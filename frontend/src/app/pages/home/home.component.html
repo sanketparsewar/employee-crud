@@ -182,8 +182,3 @@
 
 <app-add-employee [isAddEmployeeModal]="isAddEmployeeModal" (showAddEmployeeModal)="showAddEmployeeModal()"
     (getEmployeeList)="getEmployeeList()"></app-add-employee>
-
-<ng-container *ngIf="loggedEmployeeData">
-    <app-edit-profile [isEditProfileModal]="isEditProfileModal" (showEditProfileModal)="showEditProfileModal()"
-        [employeeData]="loggedEmployeeData" (getEmployeeData)="getLoggedEmployeeData()"></app-edit-profile>
-</ng-container>

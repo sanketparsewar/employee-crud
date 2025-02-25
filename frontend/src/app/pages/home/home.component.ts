@@ -1,6 +1,5 @@
 import { ConfirmService } from './../../core/services/confirm/confirm.service';
 import { Component, inject, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../../core/services/employee/employee.service';
 import { CommonModule } from '@angular/common';
@@ -16,7 +15,6 @@ import Swal from 'sweetalert2';
     CommonModule,
     FormsModule,
     AddEmployeeComponent,
-    EditProfileComponent,
     PaginationComponent,
   ],
   templateUrl: './home.component.html',
@@ -40,12 +38,10 @@ export class HomeComponent implements OnInit {
   currentPage: number = 1;
   isDropdownOpen: boolean = false;
   isAddEmployeeModal: boolean = false;
-  isEditProfileModal: boolean = false;
   isFilterOptions: boolean = false;
   savedTheme: string = '';
   isDarkMode: boolean = false;
   constructor(
-    private authService: AuthService,
     private employeeService: EmployeeService,
     private toastService: ToastService,
     private confirmService: ConfirmService
@@ -77,10 +73,6 @@ export class HomeComponent implements OnInit {
     this.isAddEmployeeModal = !this.isAddEmployeeModal;
   }
 
-  showEditProfileModal() {
-    this.isEditProfileModal = !this.isEditProfileModal;
-  }
-
   onChangeFilter(event: any) {
     this.queryParameters[event.target.name] = event.target.value;
     this.queryParameters.page = 1;
@@ -90,9 +82,7 @@ export class HomeComponent implements OnInit {
   getLoggedEmployeeData() {
     this.employeeService.getLoggedEmployee().subscribe({
       next: (res) => {
-        this.loggedEmployeeData = res;
-        console.log(res);
-        
+        this.loggedEmployeeData = res;        
         this.getEmployeeList();
       },
       error: (error) => {
@@ -135,7 +125,6 @@ export class HomeComponent implements OnInit {
             next: () => {
               Swal.fire({
                 title: 'Deleted!',
-                text: 'Your file has been deleted.',
                 icon: 'success',
               });
               this.getEmployeeList();
@@ -149,25 +138,4 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  logout() {
-    this.confirmService
-      .showConfirm('Are you sure you want to Logout?')
-      .then((isConfirmed) => {
-        if (isConfirmed) {
-          this.authService.logout().subscribe({
-            next: () => {
-              Swal.fire({
-                title: 'Logged out!',
-                icon: 'success',
-              });
-              this.router.navigate(['auth', 'login']);
-            },
-            error: (error) => {
-              if (error.status !== 401)
-                this.toastService.showError(error.error?.message);
-            },
-          });
-        }
-      });
-  }
 }
