@@ -8,28 +8,28 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 
 export const routes: Routes = [
-    {
-      path: '',
-      component: LayoutComponent,
-      children: [
-        {
-          path: '',
-          redirectTo: 'home',
-          pathMatch: 'full', 
-        },
-        {
-          path: 'home',
-          component: HomeComponent,
-          canActivate: [employeeGuard],
-        },
-        {
-          path: 'profile',
-          component: ProfileComponent,
-          canActivate: [employeeGuard],
-        },
-      ],
-    },
-    
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+        canActivate: [employeeGuard],
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [employeeGuard],
+      },
+    ],
+  },
+
   {
     path: 'auth',
     children: [
