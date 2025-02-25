@@ -23,8 +23,6 @@ export class EditProfileComponent implements OnInit {
   @Output() getEmployeeData = new EventEmitter();
   updateForm!: FormGroup;
 
-  selectedFile: File | null = null;
-
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
@@ -37,7 +35,6 @@ export class EditProfileComponent implements OnInit {
         this.employeeData?.name || '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(25)],
       ],
-      image: [''],
       department: [
         this.employeeData?.department || '',
         [Validators.required, Validators.maxLength(25)],
@@ -65,25 +62,5 @@ export class EditProfileComponent implements OnInit {
 
   closeModal() {
     this.showEditProfileModal.emit();
-  }
-
-  fileSelect(event: any) {
-    if (event.target.files) {
-      this.selectedFile = event.target.files[0];
-    }
-  }
-
-  uploadFile() {
-    if (!this.selectedFile) return;
-    this.employeeService.uploadFile(this.selectedFile).subscribe({
-      next: (res) => {
-        this.employeeData.image = res.file.url;
-        console.log(res.file.url);
-        this.toastService.showSuccess('Profile picture updated successfully');
-      },
-      error: (error) => {
-        this.toastService.showError(error.error.message);
-      },
-    });
   }
 }
