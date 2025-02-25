@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           catchError((refreshError) => {
             authService.logout().subscribe({
               next: () => {
-                toastService.showError('Session expired. Please login to continue');
+                // toastService.showError('Session expired. Please login to continue');
                 router.navigate(['auth', 'login']);
               },
               error: (error) => {
