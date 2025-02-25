@@ -1,35 +1,33 @@
-
-
-
 <div class="container mx-auto mt-6 flex flex-col md:flex-row gap-6 h-screen ">
     <div class="w-full md:w-1/4">
 
-        <div class="max-w-md mx-auto dark:bg-gray-900 bg-white rounded-xl shadow-md border border-gray-200 p-4 flex items-center gap-4">
+        <div
+            class="max-w-md mx-auto dark:bg-gray-900 bg-white rounded-xl shadow-md border border-gray-200 p-4 flex items-center gap-4">
             <div
                 class="w-16 h-16 bg-gray-500 text-white flex items-center justify-center rounded-full text-2xl shadow-lg">
-                <!-- <i class="fa-solid fa-user"></i> -->
-                 <img [src]="loggedEmployeeData?.image" class="rounded-full" alt="">
+                <img [src]="loggedEmployeeData?.image" class="rounded-full" alt="">
             </div>
             <div>
-                <h5 class="text-lg font-semibold text-gray-900 dark:text-neutral-200">{{ loggedEmployeeData?.name }}</h5>
+                <h5 class="text-lg font-semibold text-gray-900 dark:text-neutral-200">{{ loggedEmployeeData?.name }}
+                </h5>
                 <p class="text-sm text-gray-600 dark:text-neutral-200">{{ loggedEmployeeData?.email }}</p>
                 <p class="text-sm text-gray-600 dark:text-neutral-200">{{ loggedEmployeeData?.department }}</p>
             </div>
         </div>
 
 
-        <div class="flex justify-between m-2">
+        <div class="flex justify-between m-2 gap-2">
 
             <!-- Filter Button -->
             <button (click)="showFilter()"
-                class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-medium rounded-lg shadow-md hover:from-indigo-600 hover:to-indigo-800 focus:ring-4 focus:ring-indigo-300 transition-all duration-300">
+                class="flex items-center  px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-700 text-white font-medium rounded-lg shadow-md hover:from-indigo-600 hover:to-indigo-800 focus:ring-4 focus:ring-indigo-300 transition-all duration-300">
                 <i class="fa-solid fa-filter"></i>
                 <span>Filter</span>
             </button>
 
             <!-- Add Employee Button (for Admin) -->
             <button *ngIf="loggedEmployeeData?.role==='Admin'" (click)="showAddEmployeeModal()"
-                class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-medium rounded-lg shadow-md hover:from-green-600 hover:to-green-800 focus:ring-4 focus:ring-green-300 transition-all duration-300">
+                class="flex items-center px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-medium rounded-lg shadow-md hover:from-green-600 hover:to-green-800 focus:ring-4 focus:ring-green-300 transition-all duration-300">
                 <i class="fa-solid fa-circle-plus"></i>
                 <span>Add Employee</span>
             </button>

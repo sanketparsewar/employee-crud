@@ -31,7 +31,6 @@ export class LayoutComponent implements OnInit {
     this.isDarkMode = (this.savedTheme=="true") ? false : true;
 
     this.toggleDarkMode();
-    this.getLoggedEmployeeData()
   }
 
   toggleDarkMode() {
@@ -43,19 +42,6 @@ export class LayoutComponent implements OnInit {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
-  getLoggedEmployeeData() {
-    this.employeeService.getLoggedEmployee().subscribe({
-      next: (res) => {
-        this.loggedEmployeeData = res;
-      },
-      error: (error) => {
-        if (error.status !== 401) {
-          this.toastService.showError(error.error?.message);
-        }
-      },
-    });
   }
 
   logout() {
