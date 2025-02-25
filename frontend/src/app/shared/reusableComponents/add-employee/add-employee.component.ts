@@ -1,6 +1,5 @@
 import { ToastService } from './../../../core/services/toast/toast.service';
 import { AuthService } from './../../../core/services/auth/auth.service';
-import { EmployeeService } from './../../../core/services/employee/employee.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import {
@@ -22,8 +21,7 @@ export class AddEmployeeComponent implements OnInit {
   @Output() getEmployeeList = new EventEmitter();
   @Output() showAddEmployeeModal = new EventEmitter();
   addEmployeeForm!: FormGroup;
-
-  constructor(
+   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private toastService: ToastService
